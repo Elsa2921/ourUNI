@@ -1,0 +1,60 @@
+:root{
+    --dark-pink:#FD5852;
+    --black: #332622;
+    --white:#F8F5F4;
+    --blue-green: #247ba0;
+    --blue:#5f758e;
+    --beige: #e6dece;
+
+}
+
+
+
+.prof_eachBox{
+    width: 30%;
+    text-align: center;
+    border: 1px solid var(--beige);
+    /* border-left: 1px solid var(--beige);
+    border-top: 1px solid var(--beige); */
+    /* background-color: aqua; */
+}
+
+.prof_eachBox h3{
+    color: var(--blue-green);
+    font-size: clamp(17px ,1.8vw ,28px);
+}
+
+
+.prof_eachBox p{
+    color: var(--blue);
+    font-size: clamp(14px ,1vw ,19px);
+    font-style: italic;
+}
+
+
+.prof_eachBox img{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background-color: aquamarine;
+}
+
+
+
+@media(max-width: 992px){
+    .prof_eachBox{
+        width: 48%;
+    }
+}
+
+
+@media(max-width: 768px){
+    .prof_eachBox{
+        width: 100%;
+    }
+
+    .prof_eachBox img{
+        width: 100px;
+        height: 100px;
+    }
+}

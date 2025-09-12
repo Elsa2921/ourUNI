@@ -1,0 +1,20 @@
+export  const arr = {
+    'server':'/ourUNI/server/broker.php',
+    'index':'/ourUNI/',
+    'blogJson': '/ourUNI/public/assets/data-json/blog.json',
+    'facultiesJson' : '/ourUNI/public/assets/data-json/faculties.json',
+    'galleryJson' : '/ourUNI/public/assets/data-json/gallery.json',
+    'aboutUs' : '/ourUNI/public/html/pages/aboutUs.html',
+    'professorJson': '/ourUNI/public/assets/data-json/professors.json',
+    'professorSlideJson' : '/ourUNI/public/assets/data-json/professors-slide-home.json',
+    'faculties' : '/ourUNI/public/html/pages/faculties.html',
+    'blog': '/ourUNI/public/html/pages/blog.html',
+    'gallery' :'/ourUNI/public/html/pages/gallery.html',
+    'professors' :'/ourUNI/public/html/pages/professors.html',
+    'signup' : '/ourUNI/public/html/register/signup.html',
+    'profile': '/ourUNI/public/html/profile/profile.html',
+    'examView': '/ourUNI/public/html/prof_pages/examView.html',
+    'examProgress': '/ourUNI/public/html/prof_pages/examsInProgress.html',
+    'createTest': '/ourUNI/public/html/prof_pages/createTest.html',
+
+};

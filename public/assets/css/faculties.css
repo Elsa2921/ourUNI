@@ -1,0 +1,48 @@
+:root{
+    --dark-pink:#FD5852;
+    --black: #332622;
+    --white:#F8F5F4;
+    --blue-green: #247ba0;
+    --blue:#5f758e;
+    --beige: #e6dece;
+
+}
+
+
+.faculties_cont{
+    width: 47.5%;
+}
+
+.facutie_area{
+    width: 100%;
+}
+
+.facutie_area h3{
+    font-size: clamp(19px ,2vw ,27px);
+    color: var(--dark-pink);
+   
+}
+
+.facutie_area h6{
+    color: gray;
+    font-size: clamp(14px ,1.5vw ,17px);
+    font-style: italic;
+    line-height: 1.6;
+    
+}
+
+.facutie_area details summary{
+    color: var(--black);
+    margin-bottom: 20px;
+}
+
+.facutie_area details p{
+    color: var(--blue-green);
+    margin-left: 10px;
+}
+
+@media(max-width:992px){
+    .faculties_cont{
+        width: 100%;
+    }
+}

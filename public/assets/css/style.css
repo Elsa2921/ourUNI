@@ -1,0 +1,667 @@
+:root{
+    --dark-pink:#FD5852;
+    --black: #332622;
+    --white:#F8F5F4;
+    --blue-green: #247ba0;
+    --blue:#5f758e;
+    --beige: #e6dece;
+
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* home----- */
+
+.home-bg{
+    height: 100vh;
+    position: relative;
+    background-image: url("/ourUNI/public/assets/images/home.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-layer{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0,0,0,.78);
+    top: 0;
+    left: 0;
+    /* z-index: 1; */
+}
+
+
+img{
+    object-fit: cover;
+}
+
+li{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+}
+
+
+a{
+    text-decoration: none;
+    color: var(--white);
+}
+
+
+#navbar{
+    top: 0;
+    left: 0;
+    z-index: 8;
+    transition: .5s ease;
+}
+
+.navbar_contF{
+    width: 100%;
+    position: fixed;
+    background-color: rgba(0,0,0,.95);
+}
+
+.navbar .fa-bars{
+    color: var(--beige);
+    font-size: clamp(18px ,1vw, 25px);
+    cursor: pointer;
+    
+}
+
+.logo{
+    font-weight: 600;
+    color: var(--white);
+}
+
+.logo span{
+    color: var(--dark-pink);
+}
+
+.nav-ul li{
+    color: var(--white);
+    font-size: 17px;
+    
+}
+
+.dropdown-li{
+    position: relative;
+}
+
+.nav-more-dorpdown{
+    position: absolute;
+    width: 150px;
+    border-radius: 7px;
+    opacity: 0;
+    top: 60px;
+    pointer-events: none;
+    background-color: var(--dark-pink);
+    transition: .5s ease;
+}
+
+
+
+.nav-ul li a,
+.nav-more-dorpdown li a{
+    transition: .2s ease;
+}
+.nav-ul li a:hover{
+    color: var(--dark-pink);
+}
+
+
+.active_nav{
+    color: var(--dark-pink);
+}
+
+.nav-more-dorpdown .active_nav{
+    color: var(--black);
+}
+
+.profile_nav{
+    background-color: var(--black);
+}
+
+.nav-more-dorpdown li a:hover{
+    color: var(--black);
+}
+
+
+.p-dropdown{
+    cursor: pointer;
+}
+
+.dropdown-li:hover .nav-more-dorpdown,
+.nav-more-dorpdown:hover{
+    opacity: 100%;
+    top: 40px;
+    pointer-events: all;
+}
+
+
+.home-text{
+    z-index: 5;
+
+}
+
+
+.home-text p {
+    margin-top: 40px;
+}
+
+
+
+
+
+
+/* home----- */
+
+
+
+
+
+
+
+/* about us----- */
+.homeAboutUs-cont-f{
+    height: 100vh;
+    padding: 80px 0;
+    background-color: var(--dark-pink);
+}
+
+
+.homeAboutUs-text{
+    width: 50%;
+    height: 100%;
+    align-items: start;
+    
+}
+
+
+
+.homeAboutUs-text div p{
+    color: var(--beige);
+    font-size: 17px;
+    letter-spacing: .5px;
+}
+
+.homeAboutUs-text div h2{
+    font-weight: 600;
+    font-size: clamp(16.5px ,1vw, 42px);    
+    color: var(--white);
+    letter-spacing: .6px;
+}
+.homeAboutUs-img{
+    width: 40%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+
+
+
+/* about us----- */
+
+
+
+
+
+/* gallery */
+
+
+
+
+
+
+
+.homeGallery-container  h1{
+    font-size: clamp(24px ,4vw, 70px);
+    font-weight: 600;
+}
+
+
+.homeGallery{
+    gap: 1%;
+}
+
+.homeGallery img{
+    width: 32.5%;
+    height: 250px;
+    margin-bottom: 12px;
+}
+
+
+/* gallery */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* our porfessors */
+
+
+
+
+
+.homeProfessors-cont-f{
+    background-color: var(--black);
+}
+
+
+
+.homeProfessors-cont-f h1{
+    font-size: clamp(24px 4vw, 75px);
+    font-weight: 600;
+    color: var(--white);
+}
+
+    .professors-slide {
+        width: 100%;        
+    }
+    
+
+
+
+
+
+.professors-slide .prof_each{
+    width: 100%;
+    /* height: 550px; */
+    background-color: var(--dark-pink);
+    color: var(--white);
+    padding: 20px 30px;    
+}
+
+
+.prof_each span{
+    color: var(--beige);
+    letter-spacing: .3px;
+    font-size: 15px;
+    font-style: italic;
+}
+
+.professors-slide .slick-dots{
+    position: absolute;
+    bottom: -20px;
+
+}
+.professors-slide .slick-dots li button::before{
+    content: '';
+    width: 6px;
+    height: 6px;
+    background-color: white;
+}
+
+
+.prof_each:nth-child(odd){
+    background-color: var(--black);
+}
+
+
+.prof_each img{
+    width: 100%;
+    aspect-ratio: 10/11;
+
+}
+
+/* our porfessors */
+
+
+
+
+
+
+/* our faculties */
+
+
+
+
+.facluties-part-1{
+    width: 40%;
+    /* padding-left: 20px; */
+}
+
+.facluties-part-1 h1{
+    font-size: clamp(25px ,3.4vw, 80px);
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+
+
+.facluties-part-1 h1 span{
+    color: var(--dark-pink);
+    
+}
+
+
+.facluties-part-1 p{
+    font-weight: 600;
+    color: var(--blue);
+    font-style: italic;
+    margin-top: 30px;
+    
+}
+
+
+.facluties-part-2{
+    padding-right: 0px;
+}
+
+
+.facluties-part-2 li h4{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+
+.facluties-part-2 li p{
+    font-style: italic;
+    color: var(--blue-green);
+}
+
+
+
+/* our faculties */
+
+
+
+
+
+
+
+
+
+/* footer */
+
+
+
+.footer{
+    background-color: var(--black);
+}
+
+
+.footer h3{
+    color: var(--dark-pink);
+}
+
+
+
+.footer ul {
+    padding: 0;
+    padding-right: 50px;
+    line-height: 2.5;
+}
+
+
+.footer-part2{
+    width: 60%;
+}
+
+.footer form{
+    width: 100%;
+}
+
+
+
+.footer form input,textarea{
+    background-color: transparent;
+    border: 1px solid var(--white);
+    color: var(--white);
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+
+
+.footer form input::placeholder, .footer form textarea::placeholder{
+    color: var(--beige);
+}
+
+
+.footer form input {
+    width: 48%;
+    height: 50px;
+}
+
+
+
+.footer form textarea{
+    width: 48%;
+    max-width:48%;
+    max-height: 200px;
+    height: 100px;
+    min-height: 80px;
+}
+#toProfile,#toSignup{
+    display: none;
+}
+
+#toProfile i{
+    width: 40px;
+    height: 40px;
+    background-color: var(--dark-pink);
+    border-radius: 50%;
+    color: white;
+    font-size: clamp(12px ,1vw ,18px);
+}
+
+
+/* footer */
+
+@media(min-width:1200px){
+    .home-bg, .homeAboutUs-cont-f{
+        height: 700px;
+    }
+}
+
+
+
+
+@media(max-width:1200px){
+    .home-bg, .homeAboutUs-cont-f{
+        height: 700px;
+    }
+
+
+
+    
+.facluties-part-1{
+    width: 45%;
+    padding-left: 0;
+}
+
+.facluties-part-2{
+    width: 48%;
+    padding-right: 0;
+}
+
+
+
+}
+
+
+@media(max-width:992px){
+
+    .nav-ul{
+        width: 250px;
+        padding: 20px;
+        border-radius: 7px;
+        background-color: var(--black);
+        position: absolute;
+        transition: .5s ease;
+        left: -450px;
+        top: 100px;
+        z-index: 1000;
+    }
+
+
+    .home-bg{
+        height: 500px;
+        background-position: left;
+    }
+
+
+    .homeAboutUs-cont-f{
+        height: 600px;
+        padding: 50px 0;
+    }
+    
+    
+    .homeAboutUs-text{
+        width: 55%;    
+    }
+
+
+   
+
+    
+
+    .facluties-part-1{
+        width: 45%;
+        padding-left: 0;
+    }
+
+    .facluties-part-1 {
+        font-size: 15px;
+    }
+    
+    .facluties-part-2{
+        width: 53%;
+        padding-right: 0;
+    }
+
+    .facluties-part-2 li h4{
+        font-size: 18px;
+    }
+
+    .facluties-part-2 li p{
+        font-size: 15px;
+    }
+
+    .footer-part2{
+        width: 100%;
+    }
+}
+
+
+@media(max-width:768px){
+
+    .homeAboutUs-cont-f{
+        height: 650px;
+        padding: 40px 0;
+    }
+
+    .homeAboutUs-cont-f .container{
+        flex-direction: column;
+    }
+    .homeAboutUs-text{
+        width: 100%; 
+        align-items: center;
+        height: 55%;
+    }
+
+    .homeAboutUs-text div p{
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .homeAboutUs-img{
+        width: 100%;
+        height: 40%;
+    }
+
+    .homeAboutUs-text div h2{
+        font-size: clamp(16.7px ,.7vw, 40px);
+        color: var(--white);
+        letter-spacing: .5px;
+        text-align: center;
+        width: 100%;
+    }
+
+     .homeGallery img{
+        margin-bottom: 10px;
+    }
+
+
+    .facluties-part-1{
+        width: 100%;
+        text-align: center;
+    }
+
+    .facluties-part-1 p{
+        font-size: 14px;
+    }
+    
+    .facluties-part-2{
+        width: 100%;
+    }
+
+    .facluties-part-2 {
+        padding: 0;
+    }
+
+    .footer form input,
+    .footer form textarea{
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #toProfile i{
+        width: 34px;
+        height: 34px;
+    }
+}
+
+@media(max-width:576px){
+    .nav-ul{
+        width: 200px;
+        left: -300px;
+    }
+
+
+    .home-bg{
+        height: 420px;
+    }
+
+
+    .homeAboutUs-cont-f{
+        padding: 10px 0;
+    }
+
+
+    .homeAboutUs-text{
+        height: 60%;
+    }
+    .homeAboutUs-text div p{
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .homeAboutUs-img{
+        height: 35%;
+    }
+    
+
+     .homeGallery img{
+        width: 49%;
+        height: 200px;
+    }
+}

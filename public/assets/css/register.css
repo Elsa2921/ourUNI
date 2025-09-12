@@ -1,0 +1,188 @@
+:root{
+    --dark-pink:#FD5852;
+    --black: #332622;
+    --white:#F8F5F4;
+    --blue-green: #247ba0;
+    --blue:#5f758e;
+    --beige: #e6dece;
+
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+.register_cont_fluid{
+    padding: 0;
+    height: 100vh;
+    background-color: var(--dark-pink);
+}
+
+
+.register_cont_fluid img{
+    width: 60%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.register_cont{
+    width: 40%;
+    height: 100%;
+}
+
+
+.register_box{
+    padding:50px;
+    border: 2px solid var(--white);
+    border-radius: 15px;
+}
+
+
+.register_box h2{
+    color: white;
+    margin-bottom: 30px;
+}
+
+.register_option_btn{
+    padding:11px 40px;
+    border: none;
+    border-radius: 8px;
+    letter-spacing: .7px;
+    
+
+
+}
+
+
+.register_inp_div{
+    border: 2px solid white;
+    border-radius: 6px;
+    padding: 3px 20px;
+    padding-left: 10px;
+    position: relative;
+}
+
+
+.borderRed{
+    border-color: red;
+}
+
+.register_inp_div i{
+    color: white;
+    /* padding-right: 10px;
+    border-right: 2px solid var(--white); */
+}
+
+
+.register_inp_div input{
+    height: 37px;
+    background-color:transparent;
+    outline: none;
+    border: none;
+    color: white;
+    padding-left: 10px;
+}
+
+.register_inp_div label{
+    position: absolute;
+    left: 40px;
+    top: 9px;
+    color: white;
+    transition: .3s ease;
+}
+
+.register_inp_div input:focus + label,
+ .not_empty + label{
+    top: -15px;
+    padding:.3px 6px;
+    /* border: 1px solid white; */
+    background-color: var(--dark-pink);
+}
+
+
+.register_box a{
+    color: var(--beige);
+}
+.opt_area{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.opt_area i{
+    font-size: 20px;
+    color: var(--white);
+    cursor: pointer;
+    margin: 0 10px;
+    
+}
+
+
+
+input[type="password"]::-ms-reveal {
+    display: none;
+}
+
+
+input::-webkit-credentials-auto-fill-button {
+    visibility: hidden;
+    display: none !important;
+  }
+
+
+  .eye-icon{
+    cursor: pointer;
+  }
+
+
+@media(max-width:1024px){
+    .register_cont_fluid img,
+    .register_cont
+    {
+        width: 50%;
+    }
+    
+}
+
+
+@media(max-width:992px){
+    .register_box{
+        padding:40px 30px;
+    }
+}
+
+@media(max-width:768px){
+    .register_cont_fluid img{
+        display: none;
+    }
+
+    .register_cont{
+        width: 100%;
+    }
+}
+
+
+
+@media(max-width:576px){
+    
+    .register_box{
+        padding:30px 25px;
+    }
+
+    .register_option_btn{
+        padding:9px 30px;    
+    }
+    
+
+
+    .register_inp_div{
+        width: 100%;
+    }
+}

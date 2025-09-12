@@ -1,0 +1,64 @@
+{
+    "campus": [
+      { "id": 1, "path": "/ourUNI/public/assets/images/gallery/campus/campus.jpg" },
+      { "id": 2, "path": "/ourUNI/public/assets/images/gallery/campus/campus1.jpg" },
+      { "id": 3, "path": "/ourUNI/public/assets/images/gallery/campus/campus2.jpg" },
+      { "id": 4, "path": "/ourUNI/public/assets/images/gallery/campus/campus3.jpg" },
+      { "id": 5, "path": "/ourUNI/public/assets/images/gallery/campus/campus4.jpg" }
+    ],
+    "graduation": [
+      
+      { "id": 6, "path": "/ourUNI/public/assets/images/gallery/graduation/graduates.jpg" },
+      { "id": 7, "path": "/ourUNI/public/assets/images/gallery/graduation/graduation1.jpg" },
+      { "id": 8, "path": "/ourUNI/public/assets/images/gallery/graduation/graduation2.jpg" },
+      { "id": 9, "path": "/ourUNI/public/assets/images/gallery/graduation/graduation3.jpg" },
+      { "id": 10, "path": "/ourUNI/public/assets/images/gallery/graduation/graduation4.jpg" },
+      { "id": 11, "path": "/ourUNI/public/assets/images/gallery/graduation/graduation5.jpg" }
+    ],
+    "learning": [
+      { "id": 12, "path": "/ourUNI/public/assets/images/gallery/learning/student1.jpg" },
+      { "id": 13, "path": "/ourUNI/public/assets/images/gallery/learning/student2.jpg" },
+      { "id": 14, "path": "/ourUNI/public/assets/images/gallery/learning/student3.jpg" },
+      { "id": 15, "path": "/ourUNI/public/assets/images/gallery/learning/student4.jpg" }
+    ],
+    "lecture": [
+      { "id": 16, "path": "/ourUNI/public/assets/images/gallery/lecture/lecture1.jpg" },
+      { "id": 17, "path": "/ourUNI/public/assets/images/gallery/lecture/lecture2.jpg" },
+      { "id": 18, "path": "/ourUNI/public/assets/images/gallery/lecture/lecture3.jpg" },
+      { "id": 19, "path": "/ourUNI/public/assets/images/gallery/lecture/lecture4.jpg" },
+      { "id": 100, "path": "/ourUNI/public/assets/images/gallery/lecture/lecture5.jpg" }
+    ],
+    "library": [
+      { "id": 20, "path": "/ourUNI/public/assets/images/gallery/library/library1.jpg" },
+      { "id": 21, "path": "/ourUNI/public/assets/images/gallery/library/library2.jpg" },
+      { "id": 22, "path": "/ourUNI/public/assets/images/gallery/library/library3.jpg" },
+      { "id": 23, "path": "/ourUNI/public/assets/images/gallery/library/library4.jpg" },
+      { "id": 24, "path": "/ourUNI/public/assets/images/gallery/library/library5.jpg" }
+    ],
+    "sports": [
+      { "id": 25, "path": "/ourUNI/public/assets/images/gallery/sports/sport1.jpg" },
+      { "id": 26, "path": "/ourUNI/public/assets/images/gallery/sports/sport2.jpg" },
+      { "id": 27, "path": "/ourUNI/public/assets/images/gallery/sports/sport3.jpg" },
+      { "id": 28, "path": "/ourUNI/public/assets/images/gallery/sports/sport4.jpg" },
+      { "id": 29, "path": "/ourUNI/public/assets/images/gallery/sports/sport5.jpg" },
+      { "id": 30, "path": "/ourUNI/public/assets/images/gallery/sports/sport6.jpg" },
+      { "id": 31, "path": "/ourUNI/public/assets/images/gallery/sports/sport7.jpg" },
+      { "id": 32, "path": "/ourUNI/public/assets/images/gallery/sports/sport8.jpg" },
+      { "id": 33, "path": "/ourUNI/public/assets/images/gallery/sports/sport9.jpg" },
+      { "id": 34, "path": "/ourUNI/public/assets/images/gallery/sports/sport10.jpg" },
+      { "id": 35, "path": "/ourUNI/public/assets/images/gallery/sports/sport11.jpg" },
+      { "id": 36, "path": "/ourUNI/public/assets/images/gallery/sports/sport12.jpg" },
+      { "id": 37, "path": "/ourUNI/public/assets/images/gallery/sports/sport13.jpg" },
+      { "id": 38, "path": "/ourUNI/public/assets/images/gallery/sports/sport14.jpg" },
+      { "id": 39, "path": "/ourUNI/public/assets/images/gallery/sports/sport15.jpg" }
+    ],
+    "university": [
+      { "id": 40, "path": "/ourUNI/public/assets/images/gallery/university/university1.jpg" },
+      { "id": 41, "path": "/ourUNI/public/assets/images/gallery/university/university2.jpg" },
+      { "id": 42, "path": "/ourUNI/public/assets/images/gallery/university/university3.jpg" },
+      { "id": 43, "path": "/ourUNI/public/assets/images/gallery/university/university4.jpg" },
+      { "id": 44, "path": "/ourUNI/public/assets/images/gallery/university/university5.jpg" }
+    ]
+  }
+  
+  

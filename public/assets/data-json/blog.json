@@ -1,0 +1,75 @@
+{
+    "Student Life": [
+      {
+        "id": 1,
+        "title": "Day in the Life of a First-Year ourUNI Student",
+        "excerpt": "Ever wondered what it's like to be a first-year student at ourUNI? From navigating your first classes and joining student clubs to experiencing dorm life and making new friends, this blog offers a full walkthrough of the challenges and joys of a typical day on campus.",
+        "author": "Lilit A.",
+        "date": "2025-05-10",
+        "image": "/ourUNI/public/assets/images/blog/student-life/girl-with-book.jpg"
+      },
+      {
+        "id": 2,
+        "title": "Why Joining a Club Changed My Life",
+        "excerpt": "Joining a student club was one of the most transformative experiences of my time at ourUNI. It not only helped me break out of my shell and make lasting friendships, but it also gave me the confidence to lead projects and discover my true interests beyond the classroom.",
+        "author": "Hakob D.",
+        "date": "2025-06-02",
+        "image": "/ourUNI/public/assets/images/blog/student-life/club-benefits.jpg"
+      }
+    ],
+    "Campus News & Events": [
+      {
+        "id": 5,
+        "title": "Inside ourUNI’s Annual Tech Fest: Innovation Meets Passion",
+        "excerpt": "Tech Fest 2025 brought together the brightest minds from across campus to showcase groundbreaking student innovations in AI, robotics, and app development. With interactive exhibits, pitch competitions, and keynote speakers, this event proved why ourUNI is a hub of innovation.",
+        "author": "Arman T.",
+        "date": "2025-05-28",
+        "image": "/ourUNI/public/assets/images/blog/events/techfest-2025.jpg"
+      },
+      {
+        "id": 6,
+        "title": "Spring Arts Week 2025 Highlights",
+        "excerpt": "From vibrant art installations and live performances to interactive workshops and student exhibitions, Spring Arts Week was a celebration of creativity and expression across campus. Here’s a look at the most memorable moments from the week-long cultural event.",
+        "author": "Arts & Design Faculty",
+        "date": "2025-04-22",
+        "image": "/ourUNI/public/assets/images/blog/events/spring-arts.jpg"
+      }
+    ],
+    "Voices of ourUNI": [
+      {
+        "id": 9,
+        "title": "From Lecture Halls to United Nations: Meet Alumna Ani Hovhannisyan",
+        "excerpt": "Ani Hovhannisyan, an ourUNI graduate in International Relations, shares her incredible journey from academic discussions in campus lecture halls to participating in global policy decisions at the United Nations. This inspiring interview highlights her path, challenges, and key advice for students.",
+        "author": "Communications Dept.",
+        "date": "2025-04-12",
+        "image": "/ourUNI/public/assets/images/blog/voices/ani-un.jpg"
+      },
+      {
+        "id": 10,
+        "title": "What My Professor Taught Me Beyond the Syllabus",
+        "excerpt": "Sometimes the most important lessons aren’t written in textbooks. In this reflective piece, a student shares how a professor's mentorship helped him grow personally and professionally, teaching values of resilience, curiosity, and critical thinking that extend far beyond academics.",
+        "author": "Davit M.",
+        "date": "2025-03-20",
+        "image": "/ourUNI/public/assets/images/blog/voices/professor-lesson.jpg"
+      }
+    ],
+    "Research & Innovation": [
+      {
+        "id": 13,
+        "title": "AI-Powered Health App Wins National Student Research Award",
+        "excerpt": "A student-led team from ourUNI has developed an AI-based mobile app designed to assist with early health diagnostics, earning them a top national research award. This post covers how they turned an idea into reality, the technology behind it, and their future vision for healthcare innovation.",
+        "author": "Research & Development Team",
+        "date": "2025-06-11",
+        "image": "/ourUNI/public/assets/images/blog/research/ai-health-app.jpg"
+      },
+      {
+        "id": 14,
+        "title": "How to Get Involved in Research as an Undergraduate",
+        "excerpt": "Think research is only for postgrads? Think again. Discover the steps to join research projects early, how to approach faculty, and what benefits come from being part of ourUNI’s active research community. This guide opens doors to innovation and early academic success.",
+        "author": "Prof. Arshak H.",
+        "date": "2025-04-03",
+        "image": "/ourUNI/public/assets/images/blog/research/undergrad-research.jpg"
+      }
+    ]
+  }
+  

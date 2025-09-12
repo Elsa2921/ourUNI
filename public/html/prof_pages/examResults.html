@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.7/cerulean/bootstrap.min.css" integrity="sha512-r6YXrGgTg7BV1JaPgZ8qQ6tTjrfz/T0O3hZL8yLD39sz7riMf+lUYGOv8TH0qa4u9MTjrfM3gEGmCb5dASYBOQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/ourUNI/public/assets/css/style.css">
+    <link rel="stylesheet" href="/ourUNI/public/assets/css/same.css">
+    <link rel="stylesheet" href="/ourUNI/public/assets/css/prof_pages.css">
+
+</head>
+<body>
+    <div class="container-fluid py-5 position-relative">
+        <div class="container d-flex justify-content-end justify-content-md-start align-items-center pb-4">
+            <a href="../profile/profile.html" class="fa-solid fa-right-to-bracket out ps-5"></a>
+        </div>
+        <div class="container d-flex justify-content-start align-items-center flex-column gap-4">
+            <h3 class="text-dark letter-l font-600 mb-5">Exam Results</h3>
+           <div class="examResults-opt_area">
+                <i class="fa-solid fa-filter examRes_filters_btn" data-status="1" data-type="filter"></i>
+                <i class="fa-solid fa-magnifying-glass examRes_filters_btn" data-status="1" data-type="search"></i>
+           </div>
+           <div class="examFilterSearch_block">
+                <i class="fa-solid fa-xmark w-100 text-end text-black examRes_filters_btn cursor-pointer p-3"
+                 data-status="0"></i>
+                 <div class="filter_box pt-4">
+                    <h5 class="font-600 mb-4">Choose filters</h5>    
+                    <dl>
+                        <dt>Faculties</dt>
+                        <dd class="ms-3">dsf</dd>
+                        <dd class="ms-3">dsf</dd>
+                        <dd class="ms-3">dsf</dd>
+                        <dd class="ms-3">dsf</dd>
+                        <dd class="ms-3">dsf</dd>
+                    </dl>
+                 </div>
+                <div class="pt-4 search_box">
+                    <form id="examRes_search_form" class="pb-4 d-flex justify-content-start align-items-end gap-4 examRes_search">
+                        <label for="search_student">
+                            <h5 class="font-600">Search student</h5>
+                            <input type="search" placeholder="Elsa Simonyan">
+                        </label>
+                        <button type="submit" class="blue-btn fa-solid fa-magnifying-glass"></button>
+                    </form>
+                    <div class="search_res_block d-flex justify-content-start align-items-start pt-4 flex-column gap-4">
+                        <h5 class="text-color3">Search results here</h5>
+                    </div>
+                </div>
+           </div>
+            <!-- <div class="examResults-filter p-5">
+                <i class="fa-solid fa-filter"></i> -->
+                <!-- <select id="select_sub" class="w-100">
+                    <option selected disabled>What are you searching for</option>
+                    <option value="computer-science">Faculty</option>
+                    <option value="business-management"></option>
+                    <option value="psychology">Psychology</option>
+                </select>
+                <select id="select_sub" class="w-100">
+                    <option selected disabled>Select a Subject</option>
+                    <option value="computer-science">Computer Science</option>
+                    <option value="business-management">Business Management</option>
+                    <option value="psychology">Psychology</option>
+                    <option value="architecture">Architecture</option>
+                    <option value="law">Law</option>
+                    <option value="environmental-science">Environmental Science</option>
+                    <option value="international-relations">International Relations</option>
+                    <option value="graphic-design">Graphic Design</option>
+                    <option value="nursing">Nursing</option>
+                    <option value="economics">Economics</option>
+
+                </select>
+
+                <select id="select_faculty" class="w-100">
+                    <option selected disabled>Select Faculty</option>
+                    <option value="Faculty of Science & Technology">Faculty of Science & Technology</option>
+                    <option value="Faculty of Business & Economics">Faculty of Business & Economics</option>
+                    <option value="Faculty of Humanities & Social Sciences">Faculty of Humanities & Social Sciences</option>
+                    <option value="Faculty of Health & Life Sciences">Faculty of Health & Life Sciences</option>
+                    <option value="Faculty of Law">Faculty of Law</option>
+                    <option value="Faculty of Education">Faculty of Education</option>
+                    <option value="Faculty of Arts & Design">Faculty of Arts & Design</option>
+                    <option value="Faculty of International Relations & Diplomacy">Faculty of International Relations & Diplomacy</option>
+
+                </select> -->
+            <!-- </div> -->
+        </div>
+    </div>
+
+    <script src="../../assets/js/professor_p.js" type="module"></script>
+</body>
+</html>

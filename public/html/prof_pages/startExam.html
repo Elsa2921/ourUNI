@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/ourUNI/public/assets/css/prof_pages.css">
+    <link rel="stylesheet" href="/ourUNI/public/assets/css/same.css">
+</head>
+<body>
+    <div class="container-fluid pt-4">
+        <div class="container d-flex justify-content-start align-items-center pb-4">
+            <a href="../profile/profile.html" class="fa-solid fa-right-to-bracket out"></a>
+        </div>
+        <div class="startExam_cont container d-flex justify-content-start align-items-center gap-5 flex-column">
+            
+            <form id="startExam_form" class="d-flex justify-content-start align-items-start flex-column gap-2 gap-md-3">
+                <h3 class="w-100 text-center">Select </h3>
+                <label for="select_faculty">Select faculty</label>
+                <select id="select_faculty">
+                    <option value="Faculty of Science & Technology">Faculty of Science & Technology</option>
+                    <option value="Faculty of Business & Economics">Faculty of Business & Economics</option>
+                    <option value="Faculty of Humanities & Social Sciences">Faculty of Humanities & Social Sciences</option>
+                    <option value="Faculty of Health & Life Sciences">Faculty of Health & Life Sciences</option>
+                    <option value="Faculty of Law">Faculty of Law</option>
+                    <option value="Faculty of Education">Faculty of Education</option>
+                    <option value="Faculty of Arts & Design">Faculty of Arts & Design</option>
+                    <option value="Faculty of International Relations & Diplomacy">Faculty of International Relations & Diplomacy</option>
+
+                </select>
+                <label for="select_test">Select test</label>
+                <select id="select_test"></select>
+                <label for="exam_duration">Exam Duration</label>
+                <input required type="number" id="exam_duration" placeholder="duration in minutes">
+                <label for="min_points">Minimum exam points</label>
+                <input required type="number" id="min_points" placeholder="pasing points">
+                <div class="w-100 text-center">
+                    <button type="submit" class="black-btn">Start</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../assets/js/professor_p.js?v=2" type="module"></script>
+</body>
+</html>

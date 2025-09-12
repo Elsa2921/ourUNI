@@ -1,0 +1,64 @@
+:root{
+    --dark-pink:#FD5852;
+    --black: #332622;
+    --white:#F8F5F4;
+    --blue-green: #247ba0;
+    --blue:#5f758e;
+    --beige: #e6dece;
+
+}
+
+
+
+.profile_user{
+    padding: 7px 20px;
+    border: 2px solid var(--beige);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .4s ease;
+}
+
+
+.profile_user:hover{
+    background-color: var(--dark-pink);
+}
+.profile_user i{
+    color: var(--beige);
+}
+
+.profile_user h5{
+    font-size: clamp(17px , 1.2vw ,24px);
+    color: var(--beige);
+}
+
+.prof_profile_department{
+    width: 200px;
+    height: 120px;
+    border: 2px solid var(--dark-pink);
+    color: var(--dark-pink);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.prof_profile_department h4{
+    font-size: clamp(17px , 1.2vw ,24px);
+}
+
+#notifBell, #gear{
+    font-size: 23px;
+    color: var(--beige);
+    cursor: pointer;
+}
+
+
+@media(max-width:576px){
+    .prof_profile_cont a{
+        width: 90%;
+    }
+    .prof_profile_department{
+        width: 100%;
+    }
+}

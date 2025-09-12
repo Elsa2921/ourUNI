@@ -1,0 +1,183 @@
+[
+    {
+      "id": 1,
+      "name": "Dr. Emily Johnson",
+      "text": "Dr. Johnson has been part of ourUNI for the past 7 years. She is known for her engaging lectures in English Literature and has published several research papers on modern poetry and comparative literature.",
+      "img": "/ourUNI/public/assets/images/professors/professor-1.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Prof. Arman Petrosyan",
+      "text": "Prof. Petrosyan has dedicated over 12 years to ourUNI, contributing greatly to the Computer Science faculty. He is highly respected for his work in artificial intelligence and his mentorship of senior thesis projects.",
+      "img": "/ourUNI/public/assets/images/professors/professor-2.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Dr. Hiroshi Tanaka",
+      "text": "For 7 years, Dr. Tanaka has brought her expertise in environmental sciences to ourUNI. She actively participates in international research collaborations and has led multiple sustainability projects on campus.",
+      "img": "/ourUNI/public/assets/images/professors/professor-5.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Prof. Maria Martinez",
+      "text": "Prof. Martinez has been a core member of the Sociology department at ourUNI for 11 years. Her lectures focus on social justice, gender studies, and cultural theory, and she is deeply involved in community outreach programs.",
+      "img": "/ourUNI/public/assets/images/professors/professor-3.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Dr. Narek Mkrtchyan",
+      "text": "With 15 years of service, Dr. Mkrtchyan is one of the most experienced faculty members in the Physics department. He specializes in quantum mechanics and supervises both undergraduate and graduate research students.",
+      "img": "/ourUNI/public/assets/images/professors/professor-4.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Prof. Jacob Smith",
+      "text": "Prof. Smith has been teaching Business and Management courses at ourUNI for 5 years. He brings practical industry experience to his classes and is known for helping students launch real-world startup ideas.",
+      "img": "/ourUNI/public/assets/images/professors/professor-6.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Dr. Anna Müller",
+      "text": "Dr. Müller is a linguistics expert who has been with ourUNI for 6 years. Her classes focus on language acquisition, phonetics, and translation studies.",
+      "img": "/ourUNI/public/assets/images/professors/professor-7.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Prof. George Allen",
+      "text": "A former city planner, Prof. Allen teaches Urban Design and Smart City Development. He joined ourUNI 9 years ago and frequently collaborates on national infrastructure projects.",
+      "img": "/ourUNI/public/assets/images/professors/professor-8.jpg"
+    },
+    {
+      "id": 9,
+      "name": "Dr. Sophie Laurent",
+      "text": "Dr. Laurent, a specialist in biotechnology, has led several cutting-edge research programs. She joined the Health & Life Sciences faculty 8 years ago.",
+      "img": "/ourUNI/public/assets/images/professors/professor-9.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Prof. Tigran Davtyan",
+      "text": "Prof. Davtyan is an authority in Constitutional Law and Human Rights. With 18 years at ourUNI, he is also a practicing legal advisor for civic institutions.",
+      "img": "/ourUNI/public/assets/images/professors/professor-10.jpg"
+    },
+    {
+      "id": 11,
+      "name": "Dr. Lina Kovács",
+      "text": "Dr. Kovács lectures on Microeconomics and Development Finance. Her case-study based approach is popular among business students.",
+      "img": "/ourUNI/public/assets/images/professors/professor-11.jpg"
+    },
+    {
+      "id": 12,
+      "name": "Prof. Samuel Wright",
+      "text": "Prof. Wright leads workshops in creative writing and has published two award-winning novels. He's been at ourUNI since 2013.",
+      "img": "/ourUNI/public/assets/images/professors/professor-12.jpg"
+    },
+    {
+      "id": 13,
+      "name": "Dr. Elene Beridze",
+      "text": "An expert in Food Safety and Agricultural Biotechnology, Dr. Beridze has been developing sustainable farming methods in collaboration with European institutions.",
+      "img": "/ourUNI/public/assets/images/professors/professor-13.jpg"
+    },
+    {
+      "id": 14,
+      "name": "Prof. Michael Zhang",
+      "text": "Prof. Zhang teaches game design and 3D modeling. He encourages creativity in his project-based courses and has a background in indie game development.",
+      "img": "/ourUNI/public/assets/images/professors/professor-14.jpg"
+    },
+    {
+      "id": 15,
+      "name": "Dr. Narine Sargsyan",
+      "text": "Dr. Sargsyan has a deep focus on mental health in adolescents and teaches Psychology of Learning. She's been active in regional mental health advocacy.",
+      "img": "/ourUNI/public/assets/images/professors/professor-15.jpg"
+    },
+    {
+      "id": 16,
+      "name": "Prof. Liam O'Connor",
+      "text": "With a background in international economics, Prof. O'Connor teaches Global Markets and Trade Policies. He has been part of ourUNI for 10 years.",
+      "img": "/ourUNI/public/assets/images/professors/professor-16.jpg"
+    },
+    {
+      "id": 17,
+      "name": "Dr. Zaruhi Babayan",
+      "text": "Dr. Babayan is known for her work in early childhood education and curriculum development. Her innovative methods are being adopted by local schools.",
+      "img": "/ourUNI/public/assets/images/professors/professor-17.jpg"
+    },
+    {
+      "id": 18,
+      "name": "Prof. Omar El-Sayed",
+      "text": "Prof. El-Sayed teaches Philosophy and Critical Thinking. He challenges students to debate and question assumptions in every lecture.",
+      "img": "/ourUNI/public/assets/images/professors/professor-18.jpg"
+    },
+    {
+      "id": 19,
+      "name": "Dr. Aylin Demir",
+      "text": "Specializing in Pharmacology, Dr. Demir brings clinical insights to the classroom and oversees interdisciplinary medical research.",
+      "img": "/ourUNI/public/assets/images/professors/professor-19.jpg"
+    },
+    {
+      "id": 20,
+      "name": "Prof. Benjamin Lee",
+      "text": "A visual communication expert, Prof. Lee teaches courses in branding, media design, and digital storytelling. He joined ourUNI in 2016.",
+      "img": "/ourUNI/public/assets/images/professors/professor-20.jpg"
+    },
+    {
+      "id": 21,
+      "name": "Dr. Karine Aleksanyan",
+      "text": "Dr. Aleksanyan is a climate policy researcher who leads Environmental Law seminars. Her interdisciplinary work links law and sustainability.",
+      "img": "/ourUNI/public/assets/images/professors/professor-21.jpg"
+    },
+    {
+      "id": 22,
+      "name": "Prof. Alexei Ivanov",
+      "text": "An award-winning historian, Prof. Ivanov lectures on 20th-century European history and historical methodology. He’s known for his captivating storytelling in class.",
+      "img": "/ourUNI/public/assets/images/professors/professor-22.jpg"
+    },
+    {
+      "id": 23,
+      "name": "Dr. Jasmine Noor",
+      "text": "Dr. Noor specializes in Medical Ethics and has been guiding students through complex healthcare dilemmas for over 8 years. She also leads monthly bioethics forums at ourUNI.",
+      "img": "/ourUNI/public/assets/images/professors/professor-23.jpg"
+    },
+    {
+      "id": 24,
+      "name": "Prof. Artur Hakobyan",
+      "text": "Prof. Hakobyan has been teaching mathematics at ourUNI for over 20 years. His courses in linear algebra and calculus are known for clarity and real-life applications.",
+      "img": "/ourUNI/public/assets/images/professors/professor-24.jpg"
+    },
+    {
+      "id": 25,
+      "name": "Dr. Clara Mensah",
+      "text": "Dr. Mensah has led groundbreaking research in renewable energy systems. She teaches Environmental Engineering and mentors students in green tech startups.",
+      "img": "/ourUNI/public/assets/images/professors/professor-25.jpg"
+    },
+    {
+      "id": 26,
+      "name": "Prof. Reza Alizadeh",
+      "text": "Prof. Alizadeh teaches International Law and Comparative Legal Systems. He frequently contributes to international legal journals and symposiums.",
+      "img": "/ourUNI/public/assets/images/professors/professor-26.jpg"
+    },
+    {
+      "id": 27,
+      "name": "Dr. Miriam Goldstein",
+      "text": "With a PhD in Visual Culture, Dr. Goldstein lectures on Film Theory and Postmodern Art. She also curates student exhibits at the ourUNI Gallery.",
+      "img": "/ourUNI/public/assets/images/professors/professor-27.jpg"
+    },
+    {
+      "id": 28,
+      "name": "Prof. Davit Sahakyan",
+      "text": "Prof. Sahakyan leads the Mobile App Development Lab at ourUNI and mentors capstone teams in both Android and iOS projects.",
+      "img": "/ourUNI/public/assets/images/professors/professor-28.jpg"
+    },
+    {
+      "id": 29,
+      "name": "Dr. Fiona Gallagher",
+      "text": "Dr. Gallagher is a well-respected Nursing educator with a passion for community health. She’s also a coordinator for practical training at local hospitals.",
+      "img": "/ourUNI/public/assets/images/professors/professor-29.jpg"
+    },
+    {
+      "id": 30,
+      "name": "Prof. Jean-Michel Dubois",
+      "text": "Prof. Dubois teaches European Political Systems and specializes in comparative government models. He’s been teaching at ourUNI for over a decade.",
+      "img": "/ourUNI/public/assets/images/professors/professor-30.jpg"
+    }
+  ]
+  

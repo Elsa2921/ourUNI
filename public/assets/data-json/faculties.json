@@ -1,0 +1,172 @@
+[
+  {
+    "id": 1,
+    "name": "Faculty of Science & Technology",
+    "details": "This faculty focuses on innovation and research in computer science, engineering, and natural sciences. Students gain hands-on experience with modern technologies and solve real-world problems.",
+    "subjects": [
+      "Programming (Python, Java, C++)",
+      "Software Engineering",
+      "Web & Mobile App Development",
+      "Cybersecurity",
+      "Robotics & AI",
+      "Physics & Chemistry",
+      "Electrical & Mechanical Systems",
+      "Data Structures & Algorithms",
+      "Network Systems",
+      "Environmental Science"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Faculty of Business & Economics",
+    "details": "Offers comprehensive programs in business, finance, and economics with a focus on leadership, innovation, and global market understanding.",
+    "subjects": [
+      "Accounting & Financial Management",
+      "Business Strategy & Operations",
+      "Microeconomics & Macroeconomics",
+      "Marketing Principles",
+      "Entrepreneurship & Innovation",
+      "Human Resource Management",
+      "E-commerce & Digital Business",
+      "International Trade",
+      "Business Ethics",
+      "Organizational Behavior"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Faculty of Humanities & Social Sciences",
+    "details": "Encourages critical thinking, cultural understanding, and communication skills through studies in society, history, philosophy, and the human mind.",
+    "subjects": [
+      "Psychology (Cognitive, Clinical, Behavioral)",
+      "Sociology & Anthropology",
+      "History (World, Regional, Political)",
+      "Philosophy & Critical Thinking",
+      "Political Science & Governance",
+      "Ethics & Social Justice",
+      "Journalism & Media Studies",
+      "Linguistics & Literature",
+      "Public Policy",
+      "Cultural Studies"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Faculty of Health & Life Sciences",
+    "details": "Prepares students for careers in health, biology, and wellness through scientific knowledge, practical training, and ethical medical practices.",
+    "subjects": [
+      "Human Anatomy & Physiology",
+      "Microbiology & Immunology",
+      "Public Health & Epidemiology",
+      "Clinical Nursing Skills",
+      "Biochemistry & Genetics",
+      "Health Psychology",
+      "Nutrition & Dietetics",
+      "Pharmacology",
+      "Medical Ethics",
+      "First Aid & Emergency Care"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Faculty of Law",
+    "details": "Equips students with a solid foundation in national and international law, preparing them for careers in legal practice, advocacy, and justice.",
+    "subjects": [
+      "Constitutional & Administrative Law",
+      "Criminal Law",
+      "Civil Law & Tort Law",
+      "International Human Rights",
+      "Contract & Commercial Law",
+      "Legal Writing & Research",
+      "Environmental Law",
+      "Cyber Law",
+      "Legal Ethics",
+      "Courtroom Procedures"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Faculty of Education",
+    "details": "Focuses on teaching, learning psychology, curriculum design, and leadership in education to develop the next generation of educators.",
+    "subjects": [
+      "Pedagogy & Learning Theories",
+      "Classroom Management",
+      "Educational Psychology",
+      "Curriculum Design",
+      "Special Education Methods",
+      "Child Development",
+      "Instructional Technology",
+      "Language Teaching",
+      "Assessment & Evaluation",
+      "Educational Leadership"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Faculty of Arts & Design",
+    "details": "Encourages creativity and visual expression through studies in art, design, media, and performance in both traditional and digital formats.",
+    "subjects": [
+      "Drawing & Painting",
+      "Graphic & Web Design",
+      "Photography & Visual Communication",
+      "Interior & Fashion Design",
+      "Art History & Theory",
+      "Animation & 3D Modeling",
+      "Branding & Typography",
+      "Digital Media Production",
+      "Theater & Performing Arts",
+      "Film Studies"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Faculty of Architecture & Urban Planning",
+    "details": "Combines architectural design with sustainable urban planning and technical knowledge to create smarter cities and living environments.",
+    "subjects": [
+      "Architectural Design",
+      "Building Materials & Construction",
+      "Urban Planning & Development",
+      "CAD & 3D Visualization",
+      "History of Architecture",
+      "Sustainable Design",
+      "Structural Systems",
+      "Interior Architecture",
+      "Landscape Architecture",
+      "Smart Cities & Future Planning"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Faculty of Agriculture & Environmental Studies",
+    "details": "Dedicated to sustainability, agriculture, and natural resource management with a focus on modern farming, environmental science, and food systems.",
+    "subjects": [
+      "Soil Science & Agronomy",
+      "Plant Biology & Crop Production",
+      "Animal Science",
+      "Food Safety & Technology",
+      "Environmental Impact Assessment",
+      "Climate Change & Sustainability",
+      "Agricultural Machinery",
+      "Organic Farming",
+      "Resource Management",
+      "Water & Soil Conservation"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Faculty of International Relations & Diplomacy",
+    "details": "Trains students in global politics, diplomacy, and human rights to prepare for international careers in governance, peacebuilding, and foreign affairs.",
+    "subjects": [
+      "Global Politics & Diplomacy",
+      "International Organizations (UN, NATO, etc.)",
+      "Conflict Resolution",
+      "Migration & Refugee Policy",
+      "Geopolitics",
+      "Foreign Policy Analysis",
+      "Global Economy",
+      "Comparative Political Systems",
+      "Peace & Security Studies",
+      "Human Rights & International Law"
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+:root{
+    --dark-pink:#FD5852;
+    --black: #332622;
+    --white:#F8F5F4;
+    --blue-green: #247ba0;
+    --blue:#5f758e;
+    --beige: #e6dece;
+
+}
+
+
+.pages-bg{
+    background-image: url("/ourUNI/public/assets/images/students-and-uni.jpg");
+    height: 350px;
+    color: var(--white);
+}
+
+
+@media(max-width:768px){
+    .pages-bg{
+        height: 250px;
+    }
+}
