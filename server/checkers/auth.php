@@ -4,7 +4,7 @@ require_once __DIR__.'/../base/base.php';
 function checkEmailExists($email){
     global $class;
     $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT type FROM users WHERE email=:email");
+    $stmt = $pdo->prepare("SELECT type FROM professors WHERE email=:email");
     $stmt->execute([':email'=>$email]);
     $flag = false;
     if($stmt->rowCount()>0){
@@ -12,24 +12,10 @@ function checkEmailExists($email){
     }
     return $flag;
 }
-
-function codeChecker($code,$id){
-    global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT code FROM users WHERE id=:id AND code=:code");
-    $stmt->execute([':id'=>$id, ":code"=> $code]);
-    $flag = false;
-    if($stmt->rowCount()>0){
-        $flag = true;
-    }
-
-    return $flag;
-}
-
 function getUserId($email){
     global $class;
     $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT id FROM users WHERE email=:email");
+    $stmt = $pdo->prepare("SELECT id FROM professors WHERE email=:email");
     $stmt->execute([':email'=>$email]);
     $flag = false;
     if($stmt->rowCount()>0){
@@ -39,10 +25,10 @@ function getUserId($email){
 }
 
 
-function checkloginInfo($email){
+function checkloginInfo($email,$table){
     global $class;
     $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT id,full_name,type,password FROM users WHERE email=:email");
+    $stmt = $pdo->prepare("SELECT * FROM $table WHERE email=:email");
     $stmt->execute([':email'=>$email]);
     $flag = false;
     if($stmt->rowCount()>0){

@@ -2,10 +2,16 @@
 require_once __DIR__. '/../base/base.php';
 
 
+function getProfSubjects($id){
+    global $class;
+    $pdo = $class->connect();
+    $stmt = $pdo->prepare("SELECT subjec");
+}
+
 function searchStudent($search){
     global $class;
     $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT id,full_name,student_faculty FROM users WHERE full_name LIKE ? LIMIT 10");
+    $stmt = $pdo->prepare("SELECT id,full_name,faculty_id FROM students WHERE full_name LIKE ? LIMIT 10");
     $stmt->execute(["%$search%"]);
     return $stmt->fetchAll();
 }
@@ -41,7 +47,7 @@ function getViewStudents($examId,$type){
 function getStudentNames($data){
     global $class;
     $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT full_name FROM users WHERE id=:id");
+    $stmt = $pdo->prepare("SELECT full_name FROM students WHERE id=:id");
     foreach($data as &$value){
         $value['full_name']  ='';
         $stmt->execute([':id'=>$value['student_id']]);
@@ -65,6 +71,17 @@ function getStudentNames($data){
 //     }
 //     return $flag;
 // }
+
+
+function getFaculties($id){
+    global $class;
+    $pdo = $class -> connect();
+    $stmt = $pdo->prepare("SELECT faculty_id,subject,year_level FROM prof_subjects WHERE prof_id=:id");
+    $stmt->execute(['id'=>$id]);
+    return $stmt->fetchAll();
+
+}
+
 
 
 function getTestName($tableID){

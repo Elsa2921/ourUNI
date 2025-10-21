@@ -9,33 +9,30 @@
     <link rel="stylesheet" href="/ourUNI/public/assets/css/register.css">
     <link rel="stylesheet" href="/ourUNI/public/assets/css/same.css">
 
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <div class="container-fluid  d-flex justify-content-between register_cont_fluid">
         <img src="/ourUNI/public/assets/images/library.jpg" alt="library">
         <div class="register_cont  d-flex justify-content-center align-items-center">
             <div class="register_box d-flex justify-content-center align-items-center flex-column gap-4">
-                <h2>SignIn</h2>
-                <div class="opt_area">
-                    
-                    <div id="g_id_onload" 
-                            data-client_id="218309719864-8eb96rciovm8lfnn083anilecba1og5f.apps.googleusercontent.com"
-                            data-callback="handleCredentialResponse"
-                            data-auto_prompt="true">
-                        </div> 
-                        <div 
-                            class="g_id_signin"
-                            data-type="icon"
-                            data-size="medium"
-                            data-theme="outline"
-                            data-shape="circle"
-                            data-logo_alignment="center">
-                        </div>
-                    <i class="fa-brands fa-facebook"></i>
-                </div>
+               
+                <h3 class="text-white">Login</h3>
                 
-                <form class="d-flex justify-content-start flex-column gap-4" data-val="login_form">
+                                
+                <form class=" d-flex justify-content-start flex-column gap-4" data-val="login_form">
+                    <div class="d-flex justify-content-start align-items-center gap-4">
+                        <div>
+                            <input type="radio"  value="1" id="student" name="opt" checked>
+                            <label for="student" class="text-beige cursor-pointer">Student</label>
+                        </div>
+
+                        <div>
+                            <input type="radio" value="2" id="professor" name="opt">
+                            <label for="professor"  class="text-beige cursor-pointer">Professor</label>
+                        </div>
+                        
+                       
+                    </div>
                     <div class="register_inp_div">
                         <i class="fa-solid fa-envelope"></i>
                         <input type="email" id="email" data-val="email">
@@ -49,12 +46,13 @@
                         <label for="password">Password</label>
                         <i class="fa-regular fa-eye eye-icon" data-eye="p1"></i>
                     </div>
-                    <a href="forgotPassword.html">Forgot Password?</a>
                     <button class="black-btn" type="submit">
                         Login
                     </button>
                 </form>
-                <a href="signup.html">Don't have an account?</a>
+                
+                <a href="forgotPassword.html">Forgot Password?</a>
+                <h6 class="error_m d-none">The registration data doesn't match</h6>
             </div>
         </div>
     </div>

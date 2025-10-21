@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded',function(){
     viewExamReload()
     examRes_OpenFilters();
     examRes_search();
+    testNameReload();
 })
 
 // -----------------------  SAME  --------------------------------
@@ -449,6 +450,9 @@ async function startExamReload(){
 function drawTests(data){
     // 
     let str = ''
+    str+= `
+        <option value="0"  selected disabled hidden>Select the test</option>
+    `
     data.forEach(element => {
         str+= `
             <option value=${element.id} data-maxpoint="${element.total_points}" > ${element.test_name} (${element.subject})</option>
@@ -470,28 +474,33 @@ function startExam_form(){
             let test = form.querySelector('#select_test').value
             let duration = form.querySelector('#exam_duration').value
             let minPoints = form.querySelector('#min_points').value
+            let yearLevel = form.querySelector('#year_level').value
             let maxPoints = form.querySelector(`option[value="${test}"]`);
-            console.error(maxPoints)
-            let data = {
-                'startExam':true,
-                'test':test,
-                'faculty':faculty,
-                'duration' :duration,
-                'minPoints':minPoints,
-                'maxPoints' : maxPoints.getAttribute('data-maxpoint')
+            if(faculty!=="0" && yearLevel!=="0"  && test!=='0'){
+                let data = {
+                    'startExam':true,
+                    'test':test,
+                    'faculty':faculty,
+                    'duration' :duration,
+                    'minPoints':minPoints,
+                    'maxPoints' : maxPoints.getAttribute('data-maxpoint'),
+                    'yearLevel':yearLevel,
+                    
+                }
+                let res = await fetch(arr.server,{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body: JSON.stringify(data)
+                })
+                let data_r = await res.json();
+                if(data_r['message'] && data_r['message']=='ok'){
+                    window.location.href = arr.examProgress;
+                }
+                else if(data_r['status'] && data_r['status']==403){
+                    window.location.href = arr.index;
+                }
             }
-            let res = await fetch(arr.server,{
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body: JSON.stringify(data)
-            })
-            let data_r = await res.json();
-            if(data_r['message'] && data_r['message']=='ok'){
-                window.location.href = arr.examProgress;
-            }
-            else if(data_r['status'] && data_r['status']==403){
-                window.location.href = arr.index;
-            }
+            
             }
             catch(error){
                 console.error(error)
@@ -662,7 +671,7 @@ function drawTestInfo(data){
     else{
         str += `
             <div class='w-100 d-flex justify-content-center align-items-center flex-column gap-4'>
-                <h3>You don't have any tests created</h3>
+                <h3>Not Found</h3>
                 <a href="../../html/prof_pages/testName.html">
                     <button class="black-btn">Create Test</button>
                 </a>
@@ -911,6 +920,26 @@ function deleteLine(){
 // ----------------                              ---------------
 // -------------------------------------------------------------
     
+
+
+
+
+async function testNameReload(){
+    let form = document.querySelector("#testName_form")
+    if(form){
+        try{
+            const data = {
+                'testNameReload':true
+            }
+            const params = new URLSearchParams(data);
+            let res = await fetch(`${arr.server}?${params.toString()}`)
+
+        }catch(error){
+            console.error(error)
+
+        }
+    }
+}
 
 
 function CreateTestName(){

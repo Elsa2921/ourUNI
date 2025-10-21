@@ -144,7 +144,9 @@ a{
     pointer-events: all;
 }
 
-
+#menu_bar{
+    display: none;
+}
 .home-text{
     z-index: 5;
 
@@ -501,17 +503,21 @@ a{
 @media(max-width:992px){
 
     .nav-ul{
+        outline: none;
         width: 250px;
         padding: 20px;
         border-radius: 7px;
         background-color: var(--black);
         position: absolute;
         transition: .5s ease;
-        left: -450px;
+        left: -500px;
         top: 100px;
         z-index: 1000;
     }
 
+    #menu_bar{
+        display: block;
+    }
 
     .home-bg{
         height: 500px;

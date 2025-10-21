@@ -1,5 +1,6 @@
 import {arr} from './links.js';
 let path = window.location.pathname
+console.error(window.screen.width)
 let htmlStr =  `
     <h3 class="logo">our<span>UNI</span></h3>
                     
@@ -28,10 +29,10 @@ let htmlStr =  `
         </li>
         <li><a href="#contactUs">Contanct Us</a></li>
     </ul>
-    <a href=${arr.signup} id="toSignup">
-        <button class="pink-btn">Sign Up</button>
+    <a href=${arr.login} id="toSignup">
+        <button class="pink-btn">Login</button>
     </a>
-    <i class="fa-solid fa-bars d-block d-lg-none" id="menu_bar"></i>
+    <i class="fa-solid fa-bars" id="menu_bar"></i>
                     
     <a id="toProfile" href=${arr.profile}>
         <i  class="fa-solid fa-user d-flex justify-content-center align-items-center"></i>

@@ -1,5 +1,5 @@
 export  const arr = {
-    'server':'/ourUNI/server/broker.php',
+    'server':'/ourUNI/server/index.php',
     'index':'/ourUNI/',
     'blogJson': '/ourUNI/public/assets/data-json/blog.json',
     'facultiesJson' : '/ourUNI/public/assets/data-json/faculties.json',
@@ -11,8 +11,9 @@ export  const arr = {
     'blog': '/ourUNI/public/html/pages/blog.html',
     'gallery' :'/ourUNI/public/html/pages/gallery.html',
     'professors' :'/ourUNI/public/html/pages/professors.html',
-    'signup' : '/ourUNI/public/html/register/signup.html',
+    'login' : '/ourUNI/public/html/register/login.html',
     'profile': '/ourUNI/public/html/profile/profile.html',
+    'studentProfile': '/ourUNI/public/html/profile/studentProfile.html',
     'examView': '/ourUNI/public/html/prof_pages/examView.html',
     'examProgress': '/ourUNI/public/html/prof_pages/examsInProgress.html',
     'createTest': '/ourUNI/public/html/prof_pages/createTest.html',

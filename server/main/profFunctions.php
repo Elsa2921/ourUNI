@@ -17,6 +17,16 @@ function studentSearch($search){
     }
 }
 
+
+function testNameReload(){
+    $id = $_SESSION['ourUNI_id_'] ?? '';
+    if(!empty($id)){
+        $status = 204;
+        $data = getProfSubjects($id);
+    }
+}
+
+
 function viewExamReload($type){
     $id = $_SESSION['ourUNI_id_'] ?? '';
     $examId = $_SESSION['ourUNI_prof_examView_id'] ?? '';
@@ -82,6 +92,8 @@ function startExam_reload(){
     if(!empty($id) and !empty($info)){
         $names =  getAllTestNames($id);
         $f = getAllTests($names);
+
+        $faculties = getFaculties($id);
         echo json_encode(['tests'=>$f]);
     }
     else{

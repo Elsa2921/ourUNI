@@ -10,16 +10,27 @@
     <link rel="stylesheet" href="/ourUNI/public/assets/css/same.css">
 </head>
 <body>
-    <div class="container-fluid pt-4">
-        <div class="container d-flex justify-content-start align-items-center pb-4">
+    <div class="container-fluid pt-3 pb-2">
+        <div class="container d-flex justify-content-start align-items-center pb-3">
             <a href="../profile/profile.html" class="fa-solid fa-right-to-bracket out"></a>
         </div>
-        <div class="startExam_cont container d-flex justify-content-start align-items-center gap-5 flex-column">
+        <div class="startExam_cont container d-flex justify-content-start align-items-center gap-4 flex-column">
             
             <form id="startExam_form" class="d-flex justify-content-start align-items-start flex-column gap-2 gap-md-3">
-                <h3 class="w-100 text-center">Select </h3>
-                <label for="select_faculty">Select faculty</label>
+                <h3 class="w-100 text-center">Start Exam </h3>
+                <label for="min_points">Exam Name</label>
+                <input required type="text" id="exam_name" placeholder="exam name">
+
+
+
+                <label for="exam_duration">Exam Duration</label>
+                <input required type="number" id="exam_duration" placeholder="duration in minutes">
+
+                
+                <label for="min_points">Minimum exam points</label>
+                <input required type="number" id="min_points" placeholder="pasing points">
                 <select id="select_faculty">
+                    <option selected disabled hidden value="0">Select faculty</option>
                     <option value="Faculty of Science & Technology">Faculty of Science & Technology</option>
                     <option value="Faculty of Business & Economics">Faculty of Business & Economics</option>
                     <option value="Faculty of Humanities & Social Sciences">Faculty of Humanities & Social Sciences</option>
@@ -30,12 +41,19 @@
                     <option value="Faculty of International Relations & Diplomacy">Faculty of International Relations & Diplomacy</option>
 
                 </select>
-                <label for="select_test">Select test</label>
+
+                <select id="year_level">
+                    <option selected disabled hidden value="0">Select the year level</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+
+                </select>
                 <select id="select_test"></select>
-                <label for="exam_duration">Exam Duration</label>
-                <input required type="number" id="exam_duration" placeholder="duration in minutes">
-                <label for="min_points">Minimum exam points</label>
-                <input required type="number" id="min_points" placeholder="pasing points">
+                
+                
                 <div class="w-100 text-center">
                     <button type="submit" class="black-btn">Start</button>
                 </div>

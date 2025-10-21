@@ -54,6 +54,20 @@
 }
 
 
+.gear_box{
+    width: 250px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: var(--beige);
+    right: 0;
+    top: -320px;
+    outline: none;
+    transition: .6s ease;
+    /* top: 100px; */
+    border-radius: 10px;
+}
+
 @media(max-width:576px){
     .prof_profile_cont a{
         width: 90%;
@@ -61,4 +75,9 @@
     .prof_profile_department{
         width: 100%;
     }
+
+    .gear_box{
+        width: 220px;
+    }
+    
 }

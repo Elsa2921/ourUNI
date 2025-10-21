@@ -30,7 +30,8 @@ function handleEye(){
 function handleReg(form) {
     form?.addEventListener('submit',async function(ev){
         ev.preventDefault();
-        let inps = form.querySelectorAll('input')
+        let radio = form.querySelector('input[type="radio"]:checked')
+        let inps = form.querySelectorAll('input[data-val]')
         let form_attr=  form.getAttribute('data-val')
         let data = {
             form: form_attr
@@ -39,7 +40,7 @@ function handleReg(form) {
             
             
             let v = element.value
-            let parent = element.parentNode
+            let parent = element.parentElement
             if(v.trim()=='' || v.length==0){
                 
                 parent.style.borderColor = '#332622'
@@ -53,9 +54,12 @@ function handleReg(form) {
                 parent.querySelector('label').style.color = '#F8F5F4'
                 
                 let attr = element.getAttribute('data-val')
-                // if(attr==)
+            //     // if(attr==)
                 data[attr] = element.value
-                
+                if(radio){
+                    data['type'] = radio.value
+                }
+                // 
             }
             
         });
@@ -72,14 +76,14 @@ function handleReg(form) {
         else{
             if(form.querySelector("#password") && form.querySelector("#confirm_password")){
                 if(form.querySelector("#password").value == form.querySelector("#confirm_password").value){
-                    send(data,form_attr)
+                    send(data)
                 }
                 else{
-                    alert('password and confirm password are not the same!!');
+                    document.querySelector('.error_m').classList.remove('d-none');
                 }
             }
             else{
-                send(data,form_attr)
+                send(data)
             }
             
         }
@@ -92,39 +96,40 @@ function handleReg(form) {
 
 
 
-function send(arr1,n){
+async function send(arr1){
     
     try{
-        fetch(arr.server,{
+        let res = await fetch(arr.server,{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(arr1)
         })
-        .then(res=>res.json())
-        .then(data=>{
-            if(data['status'] && data['status']==200){
-                next(n)
+        
+        if(res.status === 200){
+            if(arr1['type']){
+                let loc = ''; 
+                loc = arr1['type'] == "1" ? arr.studentProfile : arr.profile
+                window.location.href = loc
             }
-            else{
-                alert(data['error']);
-            }
-        })
+            
+        }
+        else{
+            document.querySelector('.error_m').classList.remove('d-none');
+        }
+            
     }
     catch(error){
-        console.error(mesageError)
+        console.error(error)
     }
 }
 
 
 function regex(arr){
     let patterns= {
-        name:/^[A-Z]{1}[a-z]{2,40}$/,
-        surname:/^[A-Z]{1}[a-z]{2,40}$/,
         email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^!&*(),.?":{}<>]).{8,}$/,
-        code: /^[0-9]{6}$/
+        password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^!&*(),.?":{}<>]).{8,}$/
     }
 
 
@@ -142,29 +147,6 @@ function regex(arr){
     
       
     
-}
-
-function next(type){
-    let data = {
-        'signup_n':'email.html',
-        'email_form': 'auth.html',
-        'auth_form': 'password.html',
-        'password_form':'message.html',
-        'forgotPass_form':'auth.html',
-        'login_form' : '../profile/profile.html'
-    }
-    let flag = false;
-    for(let i in data){
-        
-        if(i==type){
-            flag = data[i];
-            break;
-            
-        }
-    }
-    if(flag){
-        window.location.href=flag
-    }
 }
 
 

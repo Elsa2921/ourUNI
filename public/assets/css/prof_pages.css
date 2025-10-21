@@ -344,6 +344,11 @@ select{
     background-color: lightgray;
 }
 
+
+
+#year_level, #select_test{
+    display: none;
+}
 @media(max-width:1310px){
     .about_test{
         width: 31%;

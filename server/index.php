@@ -18,9 +18,13 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
             }
         }
         elseif($post['form']=='login_form'){
-            if(isset($post['email']) and isset($post['password'])){
-                if(!empty($post['email']) and !empty($post['password'])){
-                    login($post['email'],$post['password']);
+            if(isset($post['email']) and isset($post['password']) and isset($post['type'])){
+                if(!empty($post['email']) and !empty($post['password']) and !empty($post['type'])){
+                    if ($post['type'] == 1 or $post['type'] == 2){
+                        $type = $post['type'] ==1 ? 'students' : 'professors';
+                        login($post['email'],$post['password'],$type,$post['type']);
+                    }
+                    
                 }
             }
             
@@ -31,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         
     }
     elseif(isset($post['loggedChecker1'])){
-        logchecker();
+        logchecker($post['loggedChecker1']);
     }
     elseif(
         isset($post['createTestName'])
@@ -67,13 +71,14 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     elseif(isset($post['id']) and isset($post['examView'])){
         $_SESSION['ourUNI_ViewExam'] = $post['id'];
     }
+    elseif(isset($post['logout'])){
+        session_destroy();
+
+    }
 }
 
 elseif($_SERVER["REQUEST_METHOD"]=="GET"){
-    if(isset($_GET['newCode'])){
-        newCode();
-    }
-    elseif(isset($_GET['createTestReload'])){
+    if(isset($_GET['createTestReload'])){
         createTestReload();
     }
     elseif(isset($_GET['testsPageReload'])){
@@ -102,6 +107,11 @@ elseif($_SERVER["REQUEST_METHOD"]=="GET"){
         and isset($_GET['search'])
     ){
         studentSearch($_GET['search']);
+    }
+    elseif(
+        isset($_GET['testNameReload'])
+    ){
+        testNameReload();
     }
 }
 
