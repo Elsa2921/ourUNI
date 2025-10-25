@@ -1,4 +1,6 @@
 import { arr } from "./links.js";
+import { fetchAPI } from './script.js';
+
 document.addEventListener('DOMContentLoaded',function(){
     CreateTestName()
     createTestReload()
@@ -101,28 +103,17 @@ function examRes_search(){
                     'studentSearch':true,
                     'search': inp
                 }
-                const params = new URLSearchParams(data).toString();
-                try{
-                    const res = await fetch(arr.server+'?'+params,{
-                        method : "GET",
-                        headers:{'Content-Type': 'application/json'},
-    
-                    })
-                    
-                    if(res.status===200){
-                        const data =await res.json();
-                        drawStudentSerch(data['searchRes'])
-                    }
-                    else if(res.status===204){
-                        drawStudentSerch(false)
-
-                    }
-                    else{
-                        window.location.href = arr.index
-                    }
+                const res = await fetchAPI('GET',data)
+                if(res.status===200){
+                    const data =await res.json();
+                    drawStudentSerch(data['searchRes'])
                 }
-                catch(error){
-                    console.error(error)
+                else if(res.status===204){
+                    drawStudentSerch(false)
+
+                }
+                else{
+                    window.location.href = arr.index
                 }
             }
             
@@ -180,31 +171,22 @@ async function viewExamReload(){
     if(cont){
         viewExamType();
         setViewSession();
-        try{
-            const type = sessionStorage.getItem('viewActive')? sessionStorage.getItem('viewActive') :'inProgress'
-            const params = new URLSearchParams({'viewExamReload':true, 'type':type});
-            const res = await fetch(`${arr.server}?${params}`)
+        const params = {'viewExamReload':true, 'type':type}
+        const res = await fetchAPI('GET',params)
 
-            if(res.status===403){
-                // if(data.status===403){
-                    // window.location.href =arr.index;
-                // }
+        if(res.status===403){
+            pass
 
-            }
-            else{
-                const data = await res.json();
-
-                if(data.examName){
-                    document.getElementById('exam_faculty').innerHTML = data.examName
-                }
-                if(data.students){
-                    drawStudents(data.students);
-                }
-            }
-            
         }
-        catch(error){
-            console.error(error)
+        else{
+            const data = await res.json();
+
+            if(data.examName){
+                document.getElementById('exam_faculty').innerHTML = data.examName
+            }
+            if(data.students){
+                drawStudents(data.students);
+            }
         }
     }
 }
@@ -286,19 +268,14 @@ function setViewSession(){
 async function examProgressReload(){
     const el = document.getElementById('examsInPorgress')
     if(el){
-        try{
-            const params = new URLSearchParams({'examsProgressReload':true});
-            let res = await fetch(`${arr.server}?${params}`);
-            const data = await res.json();
-            if(data['exams']){
-                drawExams(data['exams']);
-            }
-            else if(data['status'] && data['status']==403){
-                window.location.href = arr.index;
-            }
+        const params = {'examsProgressReload':true}
+        const res = await fetchAPI('GET',params)
+        const data = await res.json();
+        if(data['exams']){
+            drawExams(data['exams']);
         }
-        catch(error){
-            console.error(error.message)
+        else if(data['status'] && data['status']==403){
+            window.location.href = arr.index;
         }
        
 
@@ -348,28 +325,17 @@ function  endExam(){
     let btns = document.querySelectorAll('.end_exam_btn')
     btns.forEach((element)=>{
         element.addEventListener('click',async function(){
-
-            try{
-                const id= element.getAttribute('data-id')
-                const name = element.getAttribute('data-name')
-                let s = await permission(name);
-                if(s){
-                    const data = {
-                        'end_exam':true,
-                        'id': id
-                    }
-                    await fetch(arr.server,{
-                        method: "PUT",
-                        headers: {'Content-Type':'application/json'},
-                        body :JSON.stringify(data)
-                    })
-                    location.reload()
-                }   
-                
-            }
-            catch(error){
-                console.error(error)
-            }
+            const id= element.getAttribute('data-id')
+            const name = element.getAttribute('data-name')
+            let s = await permission(name);
+            if(s){
+                const data = {
+                    'end_exam':true,
+                    'id': id
+                }
+                await fetchAPI('PUT',data)
+                location.reload()
+            }   
         })
     })
 }
@@ -385,19 +351,12 @@ function viewExam(){
     btns.forEach(element => {
         element.addEventListener('click',async function(){
             try{
-               
                 const id = element.getAttribute('data-id')
-
                 const data = {
                     'id':id,
                     'examView':true
                 }
-                const params = new URLSearchParams(data).toString()
-                await fetch(arr.server+'?'+params,{
-                    method: "GET",
-                    headers:{'Content-Type': 'application/json'},
-                
-                })
+                await fetchAPI('GET',data)
                 window.location.href = arr.examView;
             }
             catch(error){
@@ -429,8 +388,8 @@ async function startExamReload(){
     let form = document.getElementById('startExam_form')
     if(form){
         try{
-            const params= new URLSearchParams({'startExam_reload':true})
-            const res  = await fetch(`${arr.server}?${params.toString()}`);
+            const params= {'startExam_reload':true}
+            const res  = await fetchAPI('GET',params)
             const data =await res.json();
             if(data['tests']){
                 drawTests(data['tests']);
@@ -455,11 +414,11 @@ function drawTests(data){
     `
     data.forEach(element => {
         str+= `
-            <option value=${element.id} data-maxpoint="${element.total_points}" > ${element.test_name} (${element.subject})</option>
+            <option value=${element.id} data-maxpoint="${element.total_points}"> ${element.test_name} (${element.subject})</option>
         `
         
     });
-    document.getElementById('select_test').innerHTML = str
+    document.getElementById('select_faculty').innerHTML = str
     startExam_form();
 }
 
@@ -470,28 +429,22 @@ function startExam_form(){
     form.addEventListener('submit',async function(e){
         e.preventDefault();
         try{
+            let name = form.querySelector('#exam_name').value
             let faculty  = form.querySelector('#select_faculty').value
-            let test = form.querySelector('#select_test').value
             let duration = form.querySelector('#exam_duration').value
             let minPoints = form.querySelector('#min_points').value
-            let yearLevel = form.querySelector('#year_level').value
-            let maxPoints = form.querySelector(`option[value="${test}"]`);
-            if(faculty!=="0" && yearLevel!=="0"  && test!=='0'){
+            let maxPoints = form.querySelector(`option[value="${faculty}"]`);
+            if(name.trim!=='' && faculty!=="0"){
                 let data = {
                     'startExam':true,
-                    'test':test,
-                    'faculty':faculty,
+                    'test':faculty,
                     'duration' :duration,
                     'minPoints':minPoints,
-                    'maxPoints' : maxPoints.getAttribute('data-maxpoint'),
-                    'yearLevel':yearLevel,
+                    'name' : name,
+                    'maxPoints' : maxPoints.getAttribute('data-maxpoint')
                     
                 }
-                let res = await fetch(arr.server,{
-                    method:'POST',
-                    headers:{'Content-Type':'application/json'},
-                    body: JSON.stringify(data)
-                })
+                const res = await fetchAPI('POST',data)
                 let data_r = await res.json();
                 if(data_r['message'] && data_r['message']=='ok'){
                     window.location.href = arr.examProgress;
@@ -533,8 +486,8 @@ async function  viewTestReload(){
     let area = document.getElementById('questions_area')
     if(area){
         try{
-            const params = new URLSearchParams({'viewTestReload':true})
-            let res = await fetch(`${arr.server}?${params.toString()}`);
+            const params = {'viewTestReload':true}
+            const res = await fetchAPI('GET',params)
             let data =await res.json();
             if(data['error']){
                 alert(data['error'])
@@ -609,8 +562,8 @@ async function  testsReload(){
     let area = document.getElementById('tests_area')
     if(area){
         try{
-            const params = new URLSearchParams({'testsPageReload':true})
-            let res = await fetch(`${arr.server}?${params.toString()}`);
+            const params = {'testsPageReload':true}
+            const res = await fetchAPI('GET',params)
             let data =await res.json();
             if(data['error']){
                 alert(data['error'])
@@ -644,6 +597,7 @@ function drawTestInfo(data){
                 <div class="about_test d-flex justify-content-start gap-2 flex-column">
                     <h4>${element['test_name']}</h4>
                     <h6>subject: ${element['subject']}</h6>
+                    <h5 style='font-size:13px;'>${element['faculty']} (${element['year_level']})</h5>
                     <div class="d-flex justify-content-between align-items-center flex-wrap">
                         <p>Question : ${element['question_count']} </p>
                         <p>Total Points :${element['total_points']}</p>
@@ -699,12 +653,8 @@ function DeleteTest(){
                 let s =await  permission(tName)
                 
                 if(s){
-                    await fetch(`${arr.server}/deleteTest/${id}`,{
-                        method:"DELETE",
-                        headers: {
-                            'Content-Type' : 'application/json'
-                        }
-                    });
+                    const part = `deleteTest/${id}`
+                    await fetchAPI('DELETE',{},part)
                     location.reload()
                 }
                 
@@ -727,11 +677,8 @@ function set_test_id(){
         element.addEventListener('click',async function(){
             try{
                 let id = element.getAttribute('data-id')
-                await fetch(arr.server,{
-                    method:"PUT",
-                    headers:{"Content-Type":'application/json'},
-                    body: JSON.stringify({'set_test_id':id})
-                });
+                const data = {'set_test_id':id}
+                await fetchAPI('PUT',data)
                 window.location.href = element.getAttribute('data-href')
             }
             catch(error){
@@ -771,8 +718,8 @@ async function  createTestReload(){
     let table = document.getElementById('test_table')
     if(table){
         try{
-            const params = new URLSearchParams({'createTestReload':true})
-            let res = await fetch(`${arr.server}?${params.toString()}`);
+            const params = {'createTestReload':true}
+            const res = await fetchAPI('GET',params)
             let data =await res.json();
             if(data['error']){
                 alert(data['error'])
@@ -834,11 +781,8 @@ function addLine(){
     let btn=  document.getElementById('addLine')
     btn.addEventListener('click',async function(){
         try{
-            await fetch(arr.server,{
-                method : "POST",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({'addTableLine':true})
-            });
+            const data = {'addTableLine':true}
+            await fetchAPI('POST',data)
             location.reload()
         }
         catch(error){
@@ -855,18 +799,14 @@ function  editTable(){
             try{
                 let id = element.getAttribute('data-id');
                 let col = element.getAttribute('data-col')
-                await fetch(arr.server,{
-                    method:"PUT",
-                    headers : {'Content-Type':'application/json'},
-                    body: JSON.stringify(
-                        {
-                            'tableUpdate':true,
-                            'id':id,
-                            'column':col,
-                            'value':element.innerHTML
+                const data = {
+                    'tableUpdate':true,
+                    'id':id,
+                    'column':col,
+                    'value':element.innerHTML
 
-                        })
-                })
+                }
+                await fetchAPI('PUT',data)
             }
             catch(error){
                 console.error(error)
@@ -884,13 +824,8 @@ function deleteLine(){
             try{
                 let id = element.getAttribute('data-id');
                 // const params = new URLSearchParams(data).toString();
-                await fetch(`${arr.server}/tableLine/${id}`,{
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json",
-                    }
-                })
-
+                const part = `tableLine/${id}`
+                await fetchAPI('DELETE',{},part)
                 location.reload()    
             }
             catch(error){
@@ -931,14 +866,31 @@ async function testNameReload(){
             const data = {
                 'testNameReload':true
             }
-            const params = new URLSearchParams(data);
-            let res = await fetch(`${arr.server}?${params.toString()}`)
+            let res = await fetchAPI('GET',data)
+            if(res.status==200){
+                const resp = await res.json()
+                const data = resp.subjects || []
+                drawSubjects(data)
+                console.error(data)
+            }
 
         }catch(error){
             console.error(error)
 
         }
     }
+}
+
+function drawSubjects(data){
+    let str = ''
+    data.forEach(element => {
+        str+= `
+        <option value='${element['prof_subj_id']}' data-val='${element['faculty']} (${element['year_level']} year)'>
+            ${element['subject']}
+        </option>
+        `
+    })
+    document.querySelector('#select_sub').innerHTML = str
 }
 
 
@@ -954,11 +906,7 @@ function CreateTestName(){
                 'name' : name,
                 'subject' : subject
             }
-            let res = await fetch(arr.server,{
-                method : "POST",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            });
+            const res = await fetchAPI('POST',data)
     
             let anw = await res.json();
             if(anw['error']){

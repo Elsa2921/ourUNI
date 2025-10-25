@@ -1,4 +1,5 @@
 import { arr } from "./links.js";
+import { fetchAPI } from "./script.js";
 document.addEventListener("DOMContentLoaded", ()=>{
     handleReg(document.querySelector('form'))
     handleEye();
@@ -99,14 +100,7 @@ function handleReg(form) {
 async function send(arr1){
     
     try{
-        let res = await fetch(arr.server,{
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(arr1)
-        })
-        
+        const res = await fetchAPI('POST',arr1)        
         if(res.status === 200){
             if(arr1['type']){
                 let loc = ''; 

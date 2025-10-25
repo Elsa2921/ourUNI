@@ -1,5 +1,6 @@
 import {logChecker} from './loggedChecker.js';
 import { arr } from "./links.js";
+import { fetchAPI } from './script.js';
 document.addEventListener('DOMContentLoaded',() =>{
     p_log();
     logout();
@@ -9,17 +10,9 @@ document.addEventListener('DOMContentLoaded',() =>{
 function logout(){
     let btn = document.querySelector('#logout')
     btn.addEventListener('click',async function(){
-        try{
-            await fetch(arr.server, {
-                method: "POST",
-                headers:{"Content-Type" : "application/json"},
-                body: JSON.stringify({'logout':true})
-            })
-            window.location.href = arr.index
-        }
-        catch(error){
-            console.error(error)
-        }
+        const data = {'logout':true}
+        await fetchAPI("POST",data)
+        window.location.href = arr.index
     })
 }
 

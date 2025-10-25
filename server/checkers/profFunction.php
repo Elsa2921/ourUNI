@@ -4,25 +4,36 @@ require_once __DIR__. '/../base/base.php';
 
 function getProfSubjects($id){
     global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT subjec");
+    $query = "SELECT ps.id as prof_subj_id, s.subject,f.faculty, s.year_level 
+    
+    FROM prof_subjects AS ps
+    INNER JOIN subjects AS s
+        ON s.id = ps.subject_id
+    INNER JOIN faculties AS f
+        ON f.id = s.faculty_id
+    WHERE ps.prof_id = :prof_id
+    ";
+    $execute = [':prof_id'=>$id];
+    $stmt = $class->query($query,$execute);
+    return $stmt;
 }
 
 function searchStudent($search){
     global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT id,full_name,faculty_id FROM students WHERE full_name LIKE ? LIMIT 10");
-    $stmt->execute(["%$search%"]);
-    return $stmt->fetchAll();
+    $query = "SELECT id,full_name,faculty_id FROM students WHERE full_name LIKE ? LIMIT 10";
+    $execute = ["%$search%"];
+    $stmt = $class->query($query,$execute);
+    return $stmt;
 }
 
 function getExamName($examId,$id){
     global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT faculty FROM exam_start WHERE 
-    prof_id=:prof_id AND id=:id AND status=:status");
-    $stmt->execute([':prof_id'=>$id ,':id'=>$examId, ':status'=>1]);
-    return $stmt->fetchColumn();
+    $query = "SELECT faculty FROM exam_start WHERE 
+    prof_id=:prof_id AND id=:id AND status=:status";
+
+    $execute = [':prof_id'=>$id ,':id'=>$examId, ':status'=>1];
+    $stmt=  $class->query($query,$execute,'column');
+    return $stmt;
 }
 
 
@@ -46,13 +57,12 @@ function getViewStudents($examId,$type){
 # ???
 function getStudentNames($data){
     global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT full_name FROM students WHERE id=:id");
+    $query = "SELECT full_name FROM students WHERE id=:id";
     foreach($data as &$value){
         $value['full_name']  ='';
-        $stmt->execute([':id'=>$value['student_id']]);
-        if($stmt->rowCount()>0){
-            $f_name = $stmt->fetchColumn();
+        $stmt = $class->query($query,[':id'=>$value['student_id']],'column');
+        if(!empty($stmt)){
+            $f_name = $stmt;
             $value['full_name']  = $f_name;
         }
     }
@@ -75,36 +85,53 @@ function getStudentNames($data){
 
 function getFaculties($id){
     global $class;
-    $pdo = $class -> connect();
-    $stmt = $pdo->prepare("SELECT faculty_id,subject,year_level FROM prof_subjects WHERE prof_id=:id");
-    $stmt->execute(['id'=>$id]);
-    return $stmt->fetchAll();
+    $query = "SELECT faculty_id,subject,year_level FROM prof_subjects WHERE prof_id=:id";
+    $execute = ['id'=>$id];
+    $stmt = $class->query($query,$execute);
+    return $stmt;
 
 }
 
 
 
-function getTestName($tableID){
+function getTestName($u_id,$tableID){
     global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT subject,test_name FROM test_names WHERE id = ?");
-    $stmt->execute([$tableID]);
+    $query = "SELECT tn.test_name, s.subject 
+    FROM test_names AS tn
+    INNER JOIN prof_subjects AS ps
+        ON ps.id = tn.prof_subject_id
+    INNER JOIN subjects AS s
+        ON s.id = ps.subject_id
+    WHERE tn.id = :tn_id
+        AND ps.prof_id = :prof_id
+    ";
+    $execute = [':tn_id'=>$tableID, ':prof_id'=>$u_id];
+    $stmt = $class->query($query,$execute,'one');
     $flag = false;
-    if($stmt->rowCount()>0){
-        $flag = $stmt->fetch(PDO::FETCH_ASSOC);
+    if(!empty($stmt)){
+        $flag = $stmt;
     }
     return $flag;
 }
 
-function getQuestions($table_id){
+function getQuestions($u_id,$table_id){
     global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT * FROM test_questions WHERE test_id = ?");
-    $stmt->execute([$table_id]);
-    $flag = [];
-    if($stmt->rowCount()>0){
-        $flag = $stmt->fetchAll();
-    }
+    $query = "SELECT  tn.test_name, s.subject,
+    tq.question, tq.1, tq.2, tq.3, tq.4, tq.answer, tq.points,tq.id
+    FROM test_names AS tn
+    INNER JOIN prof_subjects AS ps
+        ON ps.id = tn.prof_subject_id
+    INNER JOIN subjects AS s 
+        ON s.id = ps.subject_id
+    INNER JOIN test_questions AS tq
+        ON tq.test_id = tn.id
+    WHERE tn.id = :test_name_id
+        AND ps.prof_id = :prof_id";
+    $execute = [
+        ':test_name_id' => $table_id,
+        ':prof_id' => $u_id
+    ];
+    $flag = $class->query($query,$execute);
     return $flag;
 }
 
@@ -112,69 +139,70 @@ function getQuestions($table_id){
 
 function  getAllTestNames($profId){
     global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT id,test_name,date,subject FROM test_names WHERE prof_id = ?  ORDER BY id DESC");
-    $stmt->execute([$profId]);
-    $flag = false;
-    if($stmt->rowCount()>0){
-        $flag = $stmt->fetchAll();
-    }
+    $query= "SELECT id,test_name,date,prof_subject_id FROM test_names 
+     ORDER BY id DESC";
+    
+    $flag = $class->query($query);
     return $flag;
 }
 
 
 
-function getAllTests($names){
+function getAllTests($id){
     global $class;
-    $pdo = $class->connect();
-    $stmt1 = $pdo->prepare("SELECT SUM(points) 
-    FROM test_questions WHERE test_id=:test_id");
     
-    $stmt = $pdo->prepare("SELECT COUNT(*) as question_count FROM test_questions WHERE test_id = ?");
-    foreach($names as &$value){
-        $value['total_points'] = 0;
-        $stmt->execute([$value['id']]);
-        $stmt1->execute([':test_id'=>$value['id']]);
-        $value['question_count'] = $stmt->fetchColumn();
-        $value['total_points'] = $stmt1->fetchColumn();
-        is_null($value['total_points']) ? $value['total_points']=0 : '';
-    }
+    $query = "SELECT tn.id, tn.test_name, tn.date,
+    s.subject,s.year_level , f.faculty,
+    COUNT(tq.id) AS question_count, 
+    COALESCE(SUM(tq.points), 0) AS total_points
+    FROM test_names AS tn
+    INNER JOIN prof_subjects AS ps
+        ON ps.id = tn.prof_subject_id
+    INNER JOIN subjects AS s
+        ON s.id = ps.subject_id
+    INNER JOIN faculties AS f
+        ON f.id = s.faculty_id
+    LEFT JOIN test_questions AS tq
+        ON tn.id = tq.test_id    
+    WHERE ps.prof_id = :prof_id
+    GROUP BY tn.id, tn.test_name, tn.date ,s.subject
+    ORDER BY tn.date DESC";
 
-    // foreach($data as $value){
-    //     $names['question_count'] = ;
-    // }
-    return $names;
+    
+    $execute = [':prof_id'=>$id];
+
+    // return $class->query($query,$execute);
+    return $class->query($query,$execute);
 }
 
 
 function getExams($id){
     global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT id,exam_duration, faculty, max_points, min_points , participants ,start_time, test_id FROM exam_start 
-    WHERE prof_id=:prof_id AND status=:status");
-    $stmt->execute([':prof_id'=>$id ,':status'=>1]);
-    $flag = [];
-    if($stmt->rowCount()>0){
-        $flag = $stmt->fetchAll();
-    }
+    $query = "SELECT 
+    es.id,
+    es.exam_duration, 
+    es.max_points,
+    es.min_points , 
+    es.participants ,
+    es.start_time,
+    tn.test_name,
+    f.faculty,
+    s.subject,
+    s.year_level
+    FROM exam_start AS es
+    INNER JOIN test_names AS tn
+        ON tn.id = es.test_id
+    INNER JOIN prof_subjects AS ps
+        ON ps.prof_id = tn.prof_subject_id
+    INNER JOIN subjects AS s 
+        ON s.id = ps.subject_id
+    INNER JOIN faculties AS f
+        ON f.id = s.faculty_id
+    WHERE ps.prof_id=:prof_id 
+        AND es.status=:status";
+    $execute = [':prof_id'=>$id ,':status'=>1];
+    $flag = $class->query($query,$execute);
     return $flag;
 }
 
-
-function getExamTestNames($exams){
-    global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT test_name FROM test_names WHERE id=:id");
-    
-    foreach($exams as &$exam){
-        $stmt->execute([':id'=>$exam['test_id']]);
-        if($stmt->rowCount()>0){
-            $f = $stmt->fetchColumn();
-            $exam['test_name'] = $f;
-        }
-    }
-
-    return $exams;
-
-}
 ?>

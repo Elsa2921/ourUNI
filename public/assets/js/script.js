@@ -1,10 +1,18 @@
 import { arr } from "./links.js";
 
 
-async function fetchAPI(data={},part='',method="GET"){
+
+export async function fetchAPI(method="GET",data={},part=''){
     const url = arr.server
     let options = { method, headers: {} };
-    let finalURL = url+=`/${part}`;
+    
+    let finalURL = url;
+    if(part!==''){
+        finalURL = `${url}/${part}`;
+
+    }
+    // let finalURL = url;
+
     
     try{
         if(['GET','DELETE'].includes(method)){
@@ -16,7 +24,7 @@ async function fetchAPI(data={},part='',method="GET"){
         }
 
         const res = await fetch(finalURL, options);
-        return await res.json();
+        return res;
     }
     catch (error){
         console.error(error)
@@ -24,7 +32,3 @@ async function fetchAPI(data={},part='',method="GET"){
     }
 }
 
-export const fetchPOST = (data,part='') => fetchAPI(data,part,'POST')
-export const fetchPUT = (data,part='') => fetchAPI(data,part,'PUT')
-export const fetchGET = (data={},part='') => fetchAPI(data,part,'GET')
-export const fetchDELETE = (data={},part='') => fetchAPI(data,part,'DELETE')

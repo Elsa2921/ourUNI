@@ -31,10 +31,23 @@ class Base{
 
 
 
-    public function query($prepare, $execute){
-        $pdo = $this->connect();
-        $stmt = $pdo->prepare($prepare);
-        $stmt->execute($execute);
+    public function query($prepare, $execute=[],$fetchMode = 'all'){
+        try{
+            $pdo = $this->connect();
+            $stmt = $pdo->prepare($prepare);
+            $stmt->execute($execute);
+            
+            return match($fetchMode) {
+                'all' => $stmt->fetchAll(),
+                'one' => $stmt->fetch(),
+                'id' => $pdo->lastInsertId(),
+                'column' => $stmt->fetchColumn(),
+                default => null
+            };
+        }
+        catch(Exception $e){
+            return ['error'=> $e->getMessage()];
+        }
     }
 
 

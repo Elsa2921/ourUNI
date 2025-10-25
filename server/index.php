@@ -52,19 +52,19 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     elseif(
         isset($post['startExam'])
         and isset($post['test'])
-        and isset($post['faculty'])
         and isset($post['duration'])
         and isset($post['minPoints'])
         and isset($post['maxPoints'])
+        and isset($post['name'])
     ){
         if(
             !empty($post['test'])
-            and !empty($post['faculty'])
             and !empty($post['duration'])
             and !empty($post['minPoints'])
+            and !empty($post['name'])
             
         ){
-            startExam($post['test'],$post['faculty'],$post['duration'],$post['minPoints'],$post['maxPoints']);
+            startExam($post['name'],$post['test'],$post['duration'],$post['minPoints'],$post['maxPoints']);
         }
     }
 

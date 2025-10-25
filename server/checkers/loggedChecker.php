@@ -8,11 +8,11 @@ function logedChecker($id,$email,$role){
         $table = $role==1 ?'students' : 'professors';
     }
     global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT email FROM $table WHERE id=:id AND email = :email");
-    $stmt->execute([':id'=>$id, ':email'=>$email]);
+    $query = "SELECT email FROM $table WHERE id=:id AND email = :email";
+    $execute = [':id'=>$id, ':email'=>$email];
+    $stmt = $class->query($query,$execute);
     $flag  =false;
-    if($stmt->rowCount()>0){
+    if(!empty($stmt)){
         $flag = true;
     }
 

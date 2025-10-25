@@ -20,10 +20,17 @@ function studentSearch($search){
 
 function testNameReload(){
     $id = $_SESSION['ourUNI_id_'] ?? '';
+    $status = 404;
     if(!empty($id)){
         $status = 204;
         $data = getProfSubjects($id);
+        if(!empty($data)){
+            $status = 200;
+        }
+        echo json_encode(['subjects'=>$data]);
     }
+    
+    http_response_code($status);
 }
 
 
@@ -50,8 +57,9 @@ function end_exam($exam_id){
     $id = $_SESSION['ourUNI_id_'] ?? '';
     if(!empty($id)){
         global $class;
-        $class->query("UPDATE exam_start SET status=:s WHERE id=:id",
-    [':s'=>0, ':id'=>$exam_id]);
+        $query = "UPDATE exam_start SET status=:s WHERE id=:id";
+        $execute = [':s'=>0, ':id'=>$exam_id];
+        $class->query($query,$execute);
     }
 }
 
@@ -59,8 +67,7 @@ function examsProgressReload(){
     $id = $_SESSION['ourUNI_id_'] ?? '';
     if(!empty($id)){
         $exams = getExams($id);
-        $data = getExamTestNames($exams);
-        echo json_encode(['exams'=>$data]);
+        echo json_encode(['exams'=>$exams]);
     }
     else{
         echo json_encode(['status'=>403]);
@@ -69,13 +76,20 @@ function examsProgressReload(){
 
 
 
-function startExam($test_id,$faculty,$duration,$minPoints,$maxPoints){
+function startExam($name,$test_id,$duration,$minPoints,$maxPoints){
     $id = $_SESSION['ourUNI_id_'] ?? '';
     if(!empty($id)){
         global $class;
-        $class->query("INSERT INTO exam_start (prof_id, faculty, test_id, exam_duration, min_points,max_points) 
-        VALUES (:prof_id, :faculty, :test_id, :duration, :min_p, :max_p)",
-        [':prof_id'=>$id, ':faculty'=>$faculty, ':test_id'=>$test_id,':duration'=>$duration, ':min_p'=>$minPoints ,':max_p'=>$maxPoints]);
+        $query = "INSERT INTO exam_start (test_id, exam_duration, min_points,max_points,exam_name) 
+        VALUES ( :test_id, :duration, :min_p, :max_p,:exam_name)";
+        $execute = [
+            ':test_id'=>$test_id,
+            ':duration'=>$duration, 
+            ':min_p'=>$minPoints ,
+            ':max_p'=>$maxPoints,
+            ':exam_name' => $name
+        ];
+        $class->query($query,$execute,'id');
         echo json_encode(['message'=>'ok']);
     }
     else{
@@ -90,10 +104,7 @@ function startExam_reload(){
     $id = $_SESSION['ourUNI_id_'] ?? '';
     $info = $_SESSION['ourUNI_info'] ?? '';
     if(!empty($id) and !empty($info)){
-        $names =  getAllTestNames($id);
-        $f = getAllTests($names);
-
-        $faculties = getFaculties($id);
+        $f = getAllTests($id);
         echo json_encode(['tests'=>$f]);
     }
     else{
@@ -105,19 +116,21 @@ function createTestName($name,$subject){
     $id = $_SESSION['ourUNI_id_'] ?? '';
     $info = $_SESSION['ourUNI_info'] ?? '';
     if(!empty($id) and !empty($info)){
-        // $checker = testNameCheck($name);
-        // if($checker){
-        //     echo json_encode(['error'=>'This name already exists']);
-        // }
-        // else{
-            global $class;
-            $pdo = $class->connect();
-            $stmt = $pdo->prepare("INSERT INTO test_names
-            (prof_id,subject,test_name) VALUES (:prof_id, :subject, :test_name)");
-            $stmt->execute([':prof_id'=>$id, ':subject'=>$subject, ':test_name'=>$name]);
-            $_SESSION['ourUNI_test_id'] = $pdo->lastInsertId();
-            echo json_encode(['status'=>200]);
-        // }
+        global $class;
+        $query = "INSERT INTO test_names (prof_subject_id, test_name)
+        SELECT ps.id, :test_name
+        FROM prof_subjects AS ps 
+        WHERE ps.id = :prof_subj_id
+            AND ps.prof_id = :prof_id
+        ";
+        $execute = [
+            ':prof_subj_id'=>$subject, 
+            ':test_name'=>$name,
+            ':prof_id' => $id
+        ];
+        $l_id = $class->query($query,$execute,'id');
+        $_SESSION['ourUNI_test_id'] = $l_id;
+        echo json_encode(['status'=>200]);
     }
     else{
         echo json_encode(['status'=>403]);
@@ -126,10 +139,11 @@ function createTestName($name,$subject){
 
 function testViewReload(){
     $tableID = $_SESSION['ourUNI_test_id'] ?? '';
+    $u_id = $_SESSION['ourUNI_id_'] ?? '';
     $data=  [];
-    if(!empty($tableID)){
-        $data = getTestName($tableID);
-        $data['questions'] = getQuestions($tableID);
+    if(!empty($tableID) and !empty($u_id)){
+        $data = getTestName($u_id,$tableID);
+        $data['questions'] = getQuestions($u_id,$tableID);
         echo json_encode(['status'=>200,'data'=>$data]);
     }else{
         echo json_encode(['status'=>403]); 
@@ -142,12 +156,13 @@ function testsPageReload(){
     $info = $_SESSION['ourUNI_info'] ?? '';
     if(!empty($id) and !empty($info)){
         $data = [];
-        $names = getAllTestNames($id);
-        if($names){
-            $data = getAllTests($names);
-        }
+        $tests = getAllTests($id);
+        // $names = getAllTestNames($id);
+        // if($names){
+        //     $data = getAllTests($names);
+        // }
 
-        echo json_encode(['status'=>200,'data'=>$data]);
+        echo json_encode(['status'=>200,'data'=>$tests]);
     }
     else{
         echo json_encode(['status'=>403]); 
@@ -160,15 +175,9 @@ function createTestReload(){
     if(!empty($id) and !empty($info)){
         $tableID = $_SESSION['ourUNI_test_id'] ?? '';
         if(!empty($tableID)){
-            $name = getTestName($tableID);
-            if($name){
-                $selector = getQuestions($tableID);
-                echo json_encode(['status'=>200,'name'=>$name['test_name'], 'table'=>$selector]);
-            }
-            else{
-
-                echo json_encode(['status'=>403]);
-            }
+            $name = getTestName($id,$tableID);
+            $selector = getQuestions($id,$tableID);
+            echo json_encode(['status'=>200,'name'=>$name['test_name'], 'table'=>$selector]);
             
         }
         else{
@@ -185,8 +194,6 @@ function addTableLine(){
     $tableID = $_SESSION['ourUNI_test_id'] ?? '';
     if(!empty($tableID)){
         global $class;
-        // $class->query("INSERT INTO test_questions (test_id,question,1,2,3,4,answer,points) 
-        // VALUES (:test_id,:question, :1,:2,:3,:4,:answer, :points)",
         $class->query("INSERT INTO test_questions (test_id) 
         VALUES (:test_id)",
         [':test_id'=>$tableID]);
@@ -201,8 +208,9 @@ function tableUpdate($id,$col,$value){
     $tableID = $_SESSION['ourUNI_test_id'] ?? '';
     if(!empty($tableID)){
         global $class;
-        $class->query("UPDATE test_questions SET `$col`=:col WHERE id=:id",
-    [':col'=>$value, ':id'=>$id]);
+        $s = $class->query("UPDATE test_questions SET `$col`=:col WHERE id=:id",
+    [':col'=>$value, ':id'=>$id],'id');
+        echo json_encode($s);
     }
 }
 
@@ -223,10 +231,14 @@ function deleteTest($id){
     $u_id = $_SESSION['ourUNI_id_'] ?? '';
     if(!empty($u_id)){
         global $class;
-        $class->query("DELETE FROM test_names WHERE id=?",
-        [$id]);
-        $class->query("DELETE FROM test_questions WHERE test_id=?",
-    [$id]);
+        
+        $class->query("DELETE ts FROM test_names AS ts
+        INNER JOIN prof_subjects AS ps 
+            ON ps.id = ts.prof_subject_id
+        WHERE ts.id= :test_id
+        AND ps.prof_id = :prof_id
+        ",
+        [':test_id'=>$id,':prof_id'=>$u_id],'id');
     }
     
 
