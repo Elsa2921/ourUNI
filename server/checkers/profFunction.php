@@ -20,7 +20,11 @@ function getProfSubjects($id){
 
 function searchStudent($search){
     global $class;
-    $query = "SELECT id,full_name,faculty_id FROM students WHERE full_name LIKE ? LIMIT 10";
+    $query = "SELECT s.id, s.full_name, f.faculty
+    FROM students AS s 
+    INNER JOIN faculties AS f
+        ON f.id = s.faculty_id
+    WHERE full_name LIKE ? LIMIT 10";
     $execute = ["%$search%"];
     $stmt = $class->query($query,$execute);
     return $stmt;
@@ -28,8 +32,18 @@ function searchStudent($search){
 
 function getExamName($examId,$id){
     global $class;
-    $query = "SELECT faculty FROM exam_start WHERE 
-    prof_id=:prof_id AND id=:id AND status=:status";
+    $query = "SELECT f.faculty FROM exam_start AS es
+    INNER JOIN test_names AS tn
+        ON tn.id = es.test_id
+    INNER JOIN prof_subjects AS ps
+        ON ps.id = tn.prof_subject_id
+    INNER JOIN subjects AS s
+        ON s.id = ps.subject_id
+    INNER JOIN faculties AS f
+        ON f.id = s.faculty_id
+    WHERE ps.prof_id=:prof_id 
+        AND es.id=:id 
+        AND es.status=:status";
 
     $execute = [':prof_id'=>$id ,':id'=>$examId, ':status'=>1];
     $stmt=  $class->query($query,$execute,'column');
@@ -69,29 +83,6 @@ function getStudentNames($data){
 
     return $data;
 }
-
-// function testNameCheck($name){
-//     global $class;
-//     $pdo = $class->connect();
-//     $stmt = $pdo->prepare("SELECT test_name FROM test_names WHERE test_name = ?");
-//     $stmt->execute([$name]);
-//     $flag = false;
-//     if($stmt->rowCount()>0){
-//         $flag = true;
-//     }
-//     return $flag;
-// }
-
-
-function getFaculties($id){
-    global $class;
-    $query = "SELECT faculty_id,subject,year_level FROM prof_subjects WHERE prof_id=:id";
-    $execute = ['id'=>$id];
-    $stmt = $class->query($query,$execute);
-    return $stmt;
-
-}
-
 
 
 function getTestName($u_id,$tableID){
@@ -135,16 +126,6 @@ function getQuestions($u_id,$table_id){
     return $flag;
 }
 
-
-
-function  getAllTestNames($profId){
-    global $class;
-    $query= "SELECT id,test_name,date,prof_subject_id FROM test_names 
-     ORDER BY id DESC";
-    
-    $flag = $class->query($query);
-    return $flag;
-}
 
 
 
@@ -193,14 +174,15 @@ function getExams($id){
     INNER JOIN test_names AS tn
         ON tn.id = es.test_id
     INNER JOIN prof_subjects AS ps
-        ON ps.prof_id = tn.prof_subject_id
+        ON ps.id = tn.prof_subject_id
     INNER JOIN subjects AS s 
         ON s.id = ps.subject_id
     INNER JOIN faculties AS f
         ON f.id = s.faculty_id
-    WHERE ps.prof_id=:prof_id 
-        AND es.status=:status";
-    $execute = [':prof_id'=>$id ,':status'=>1];
+    WHERE es.status=:status
+    AND ps.prof_id=:prof_id
+    ORDER BY es.start_time DESC";
+    $execute = [':prof_id'=>$id,':status'=>1];
     $flag = $class->query($query,$execute);
     return $flag;
 }

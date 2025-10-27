@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__.'/../checkers/profFunction.php';
-
+require_once __DIR__.'/same.php';
 function studentSearch($search){
     $id = $_SESSION['ourUNI_id_'] ?? '';
     if(!empty($id)){
@@ -57,8 +57,9 @@ function end_exam($exam_id){
     $id = $_SESSION['ourUNI_id_'] ?? '';
     if(!empty($id)){
         global $class;
-        $query = "UPDATE exam_start SET status=:s WHERE id=:id";
-        $execute = [':s'=>0, ':id'=>$exam_id];
+        $end_date = currentDate();
+        $query = "UPDATE exam_start SET status=:s,end_time=:e_time WHERE id=:id";
+        $execute = [':s'=>0,':e_time'=>$end_date, ':id'=>$exam_id];
         $class->query($query,$execute);
     }
 }
@@ -80,14 +81,16 @@ function startExam($name,$test_id,$duration,$minPoints,$maxPoints){
     $id = $_SESSION['ourUNI_id_'] ?? '';
     if(!empty($id)){
         global $class;
-        $query = "INSERT INTO exam_start (test_id, exam_duration, min_points,max_points,exam_name) 
-        VALUES ( :test_id, :duration, :min_p, :max_p,:exam_name)";
+        $start_date = currentDate();
+        $query = "INSERT INTO exam_start (test_id, exam_duration, min_points, max_points, exam_name, start_time) 
+        VALUES ( :test_id, :duration, :min_p, :max_p,:exam_name, :start_time)";
         $execute = [
             ':test_id'=>$test_id,
             ':duration'=>$duration, 
             ':min_p'=>$minPoints ,
             ':max_p'=>$maxPoints,
-            ':exam_name' => $name
+            ':exam_name' => $name,
+            ':start_time'=> $start_date
         ];
         $class->query($query,$execute,'id');
         echo json_encode(['message'=>'ok']);

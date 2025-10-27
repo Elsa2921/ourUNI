@@ -135,7 +135,7 @@ function drawStudentSerch(data){
                         <i class="fa-solid fa-user"></i>
                         <p>${element.full_name}</p>
                     </div>
-                    <h6 class="text-color2">${element.student_faculty}</h6>
+                    <h6 class="text-color2">${element.faculty}</h6>
                     <div class="w-100 text-end">
                         <button class="pink-btn" data-id="${element.id}">Show</button>
                     </div>
@@ -169,8 +169,9 @@ async function viewExamReload(){
     const cont = document.getElementById('viewExam_c')
     
     if(cont){
-        viewExamType();
         setViewSession();
+        viewExamType();
+        const type = sessionStorage.getItem('viewActive')
         const params = {'viewExamReload':true, 'type':type}
         const res = await fetchAPI('GET',params)
 
