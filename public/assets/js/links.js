@@ -17,5 +17,7 @@ export  const arr = {
     'examView': '/ourUNI/public/html/prof_pages/examView.html',
     'examProgress': '/ourUNI/public/html/prof_pages/examsInProgress.html',
     'createTest': '/ourUNI/public/html/prof_pages/createTest.html',
-
+    'pinCode' : '/ourUNI/public/html/register/pinCode.html',
+    'newPass' : '/ourUNI/public/html/register/newPass.html',
+    'forgotPass' : '/ourUNI/public/html/register/forgotPass.html'
 };

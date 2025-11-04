@@ -35,7 +35,10 @@ if(gear){
 
 
 function blur(){
-    box.addEventListener('blur',function(){
+    box.addEventListener('blur',function(e){
+        if(box.contains(e.relatedTarget)){
+            return
+        }
         box.style.top = "-320px"
     })
 }

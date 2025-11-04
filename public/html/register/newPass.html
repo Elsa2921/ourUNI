@@ -10,39 +10,34 @@
     <link rel="stylesheet" href="/ourUNI/public/assets/css/same.css">
 </head>
 <body>
-    <div class="container-fluid  d-flex justify-content-between register_cont_fluid pt-5 pt-sm-0">
+    <div class="container-fluid  d-flex justify-content-between register_cont_fluid">
         <img src="/ourUNI/public/assets/images/library.jpg" alt="library">
-        <div class="register_cont d-flex justify-content-center align-items-start align-items-sm-center pt-5">
+        <div class="register_cont  d-flex justify-content-center align-items-center">
             <div class="register_box d-flex justify-content-center align-items-center flex-column gap-4">
 
-                <h3 class="text-white">Forgot Password</h3>
-                <form class="d-flex justify-content-start flex-column gap-4" data-val="forgotPass_form">
-                    <div class="d-flex justify-content-start align-items-center gap-4">
-                        <div>
-                            <input type="radio"  value="1" id="student" name="opt" checked>
-                            <label for="student" class="text-beige cursor-pointer">Student</label>
-                        </div>
-
-                        <div>
-                            <input type="radio" value="2" id="professor" name="opt">
-                            <label for="professor"  class="text-beige cursor-pointer">Professor</label>
-                        </div>
-                        
-                       
-                    </div>
+                <h3 class="text-white">New Password</h3>
+                <form class="d-flex justify-content-start flex-column gap-4" data-val="newPass_form">
+                    
                     <div class="register_inp_div">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" id="email"  data-val="email" required>
-                        <label for="email">Email</label>
-                        
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" data-val="password"
+                          data-eye="p1"  minlength="8" maxlength="80">
+                        <label for="password">Password</label>
+                        <i class="fa-regular fa-eye eye-icon" data-eye="p1"></i>
+                    </div>
+
+                    <div class="register_inp_div">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="confirm_password"
+                          data-eye="p2"  minlength="8" maxlength="80">
+                        <label for="confirm_password">Confirm Password</label>
+                        <i class="fa-regular fa-eye eye-icon" data-eye="p2"></i>
                     </div>
 
                     <button class="black-btn" type="submit">
-                        Next
-                        <i class="fa-solid fa-arrow-right"></i>
+                        Change
                     </button>
                 </form>
-                <a href="login.html">Back</a>
                 <h6 class="error_m d-none">The registration data doesn't match</h6>
             </div>
         </div>

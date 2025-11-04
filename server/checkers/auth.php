@@ -1,18 +1,19 @@
 <?php
 require_once __DIR__.'/../base/base.php';
-// $class = new Base('root','','exam');
-function checkEmailExists($email){
+function checkEmailExists($email,$type){
     global $class;
-    $query = "SELECT type FROM professors WHERE email=:email";
+    $query = "SELECT id FROM `$type` WHERE email=:email";
     $execute = [':email'=>$email];
-    $flag = $class->query($query,$execute);
+    $flag = $class->query($query,$execute,'column');
     return $flag;
 }
-function getUserId($email){
+
+
+function pinCodeChecker($id,$code,$type){
     global $class;
-    $query = "SELECT id FROM professors WHERE email=:email";
-    $execute = [':email'=>$email];
-    $flag = $class->query($query,$execute);
+    $query = "SELECT email FROM `$type` WHERE id = :id AND pin_code = :code";
+    $execute = [':id' => $id, ':code' => $code];
+    $flag = $class->query($query,$execute,'column');
     return $flag;
 }
 

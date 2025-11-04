@@ -3,27 +3,63 @@ require_once __DIR__. '/../checkers/auth.php';
 require_once __DIR__. '/../require/vendor.php';
 
 
-function forgotPassEmail($email){
-    $checker = checkEmailExists($email);
+function forgotPassEmail($email,$type){
+    $type = $type == '1' ? 'students' : 'professors';  
+    $checker = checkEmailExists($email,$type);
     if($checker){
-        if($checker==3){
-            global $class;
-            $_SESSION['ourUNI_id'] = getUserId($email);
-            $_SESSION['after_email'] = 1;
-        //     $class->query("UPDATE users SET  code=:code WHERE email=:email",
-        // [':email'=>$email,':code'=>$code]);
-            echo json_encode(['status'=>200]);
-            exit();
-            
-        }
-        else{
-            echo json_encode(["error" => "Your account is not created with email!"]);
-            exit();
-        }
+        $_SESSION['ourUNI_acc_id'] = $checker;
+        $_SESSION['after_email'] = 1;
+        $_SESSION['ourUNI_acc_type'] = $type;
+        http_response_code(200);
+        exit();
 
     }
     else{
-        echo json_encode(["error" => "Sign up first please!!"]);
+        http_response_code(404);
+        exit();
+
+    }
+}
+
+
+function newPass($password){
+    $id = $_SESSION['ourUNI_acc_id'] ?? null;
+    $after = $_SESSION['after_email'] ?? null;
+    $type = $_SESSION['ourUNI_acc_type'] ?? null;
+    if($id and $after and $type and $after==2){
+        global $class;
+        $hash_pass = password_hash($password,PASSWORD_BCRYPT);
+        $query = "UPDATE `$type` SET password=:pass WHERE id=:id";
+        $execute = [':pass'=>$hash_pass, ':id' =>$id];
+        $class->query($query,$execute);
+        unset($_SESSION['ourUNI_acc_id']);
+        unset($_SESSION['after_email']);
+        unset($_SESSION['ourUNI_acc_type']);
+        http_response_code(200);
+        exit();
+    }
+    else{
+        http_response_code(204);
+    }
+}
+
+
+function pinCode($code){
+    $id = $_SESSION['ourUNI_acc_id'] ?? null;
+    $after = $_SESSION['after_email'] ?? null;
+    $type = $_SESSION['ourUNI_acc_type'] ?? null;
+    if($id and $after and $type){
+        $checker = pinCodeChecker($id,$code,$type);
+        if($checker){
+            $_SESSION['after_email'] = 2;
+            http_response_code(200);
+        }
+        else{
+            http_response_code(204);
+        }
+    }
+    else{
+        http_response_code(403);
     }
 }
 

@@ -11,7 +11,7 @@ function logout(){
     let btn = document.querySelector('#logout')
     btn.addEventListener('click',async function(){
         const data = {'logout':true}
-        await fetchAPI("POST",data)
+        await fetchAPI("POST",data,'logout')
         window.location.href = arr.index
     })
 }

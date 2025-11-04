@@ -5,7 +5,14 @@ require_once __DIR__ . '/main/profFunctions.php';
 date_default_timezone_set("UTC");
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-// echo json_encode([$origin]);
+
+$url = $_SERVER['REQUEST_URI'];
+$script = $_SERVER['SCRIPT_NAME'];
+$path = str_replace($script,'',$url);
+$path = parse_url($path,PHP_URL_PATH);
+$segments = explode('/',trim($path,'/'));
+$part1 = $segments[0] ?? null;
+$part2 = $segments[1] ?? null;
 
 if (empty($origin) || $origin==$_ENV['APP_ALLOWED_ORIGIN']) {
     if (!empty($origin)) {
@@ -25,70 +32,84 @@ if (empty($origin) || $origin==$_ENV['APP_ALLOWED_ORIGIN']) {
 
     if($_SERVER["REQUEST_METHOD"]=="POST"){
         $post = json_decode(file_get_contents("php://input"),true);
-        if(
-            isset($post['form'])
-            and !empty($post['form'])
-        ){
+        switch($part1){
+            case 'test':
 
-            if($post['form']=='forgotPass_form'){
-                if(isset($post['email']) and !empty($post['email'])){
-                    forgotPassEmail($post['email']);
+            if(
+                isset($post['name'])
+                and isset($post['subject'])
+            ){
+                if(!empty($post['name']) and !empty($post['subject'])){
+                    createTestName($post['name'],$post['subject']);
                 }
             }
-            elseif($post['form']=='login_form'){
-                if(isset($post['email']) and isset($post['password']) and isset($post['type'])){
-                    if(!empty($post['email']) and !empty($post['password']) and !empty($post['type'])){
-                        if ($post['type'] == 1 or $post['type'] == 2){
-                            $type = $post['type'] ==1 ? 'students' : 'professors';
-                            login($post['email'],$post['password'],$type,$post['type']);
-                        }
+            
+            case 'exam' :
+                if(
+                    isset($post['test'])
+                    and isset($post['duration'])
+                    and isset($post['minPoints'])
+                    and isset($post['maxPoints'])
+                    and isset($post['name'])
+                ){
+                    if(
+                        !empty($post['test'])
+                        and !empty($post['duration'])
+                        and !empty($post['minPoints'])
+                        and !empty($post['name'])
                         
+                    ){
+                        startExam($post['name'],$post['test'],$post['duration'],$post['minPoints'],$post['maxPoints']);
                     }
                 }
-                
-            }
-        
-            
+                break;
+            case 'table':
+                if($part2 =='line'){
+                    addTableLine();
 
-            
+                }
+            case 'auth':
+                if(
+                    isset($post['form'])
+                    and !empty($post['form'])
+                ){
+                    $form = $post['form'];
+                    switch($form){
+                        case 'login_form':
+                            if(isset($post['email']) and isset($post['password']) and isset($post['type'])){
+                                if(!empty($post['email']) and !empty($post['password']) and !empty($post['type'])){
+                                    if ($post['type'] == 1 or $post['type'] == 2){
+                                        $type = $post['type'] ==1 ? 'students' : 'professors';
+                                        login($post['email'],$post['password'],$type,$post['type']);
+                                    }
+                                    
+                                }
+                            }
+
+                        case 'forgotPass_form':
+                            if(isset($post['email']) and !empty($post['email']) and isset($post['type'])){
+                                forgotPassEmail($post['email'],$post['type']);
+                            }
+                            
+                        case 'newPass_form':
+                            if(isset($post['password']) and !empty($post['password'])){
+                                newPass($post['password']);
+                            }
+                        case 'pinCode_form':
+                            if(isset($post['pin_code']) and  strlen($post['pin_code'])==4){
+                                pinCode($post['pin_code']);
+                            }
+                    }
+                }
+
+            default:
+                break;
         }
-        elseif(isset($post['loggedChecker1'])){
+        if(isset($post['loggedChecker1'])){
             logchecker($post['loggedChecker1']);
         }
-        elseif(
-            isset($post['createTestName'])
-            and isset($post['name'])
-            and isset($post['subject'])
-        ){
-            if(!empty($post['name']) and !empty($post['subject'])){
-                createTestName($post['name'],$post['subject']);
-            }
-        }
-        elseif(isset($post['addTableLine'])){
-            addTableLine();
-        }
-        elseif(
-            isset($post['startExam'])
-            and isset($post['test'])
-            and isset($post['duration'])
-            and isset($post['minPoints'])
-            and isset($post['maxPoints'])
-            and isset($post['name'])
-        ){
-            if(
-                !empty($post['test'])
-                and !empty($post['duration'])
-                and !empty($post['minPoints'])
-                and !empty($post['name'])
-                
-            ){
-                startExam($post['name'],$post['test'],$post['duration'],$post['minPoints'],$post['maxPoints']);
-            }
-        }
 
-        elseif(isset($post['id']) and isset($post['examView'])){
-            $_SESSION['ourUNI_ViewExam'] = $post['id'];
-        }
+        
         elseif(isset($post['logout'])){
             session_destroy();
 
@@ -96,78 +117,116 @@ if (empty($origin) || $origin==$_ENV['APP_ALLOWED_ORIGIN']) {
     }
 
     elseif($_SERVER["REQUEST_METHOD"]=="GET"){
-        if(isset($_GET['createTestReload'])){
-            createTestReload();
-        }
-        elseif(isset($_GET['testsPageReload'])){
-            testsPageReload();
-        }
-        elseif(isset($_GET['viewTestReload'])){
-            testViewReload();
-        }
-        elseif(isset($_GET['startExam_reload'])){
-            startExam_reload();
-        }
-        elseif(isset($_GET['examsProgressReload'])){
-            examsProgressReload();
-        }
-        elseif(isset($_GET['viewExamReload']) and isset($_GET['type'])){
-            viewExamReload($_GET['type']);
-        }
-        elseif(
-            isset($_GET['id'])
-            and isset($_GET['examView'])
-        ){
-            examView($_GET['id']);
-        }
-        elseif(
-            isset($_GET['studentSearch'])
-            and isset($_GET['search'])
-        ){
-            studentSearch($_GET['search']);
-        }
-        elseif(
-            isset($_GET['testNameReload'])
-        ){
-            testNameReload();
+        switch($part1){
+            case 'createTest':
+                if(!$part2){
+                    createTestReload();
+                }
+                break;
+            case 'tests':
+                if(!$part2){
+                    testsPageReload();
+
+                }
+                break;
+            case 'test':
+                if(!$part2){
+                    testViewReload();
+
+                }
+                break;
+            case 'startExam':
+                if(!$part2){
+                    startExam_reload();
+
+                }
+                break;
+            case 'exams':
+                if(!$part2){
+                    examsProgressReload();
+
+                }
+                break;
+
+            case 'exam':
+                if(is_int($part2)){
+                    examView($part2);
+
+                }
+                else{
+                    viewExamReload($part2);
+                }
+                break;
+            case 'student':
+                if(isset($_GET['search'])){
+
+                    studentSearch($_GET['search']);
+                }
+                break;
+            case 'testName':
+                if(!$part2){
+                    testNameReload();
+
+                }
+                break;
+
+            default:
+                break;
+
+
         }
     }
 
 
     elseif($_SERVER["REQUEST_METHOD"]=="PUT"){
         $put = json_decode(file_get_contents('php://input'),true);
-        if(
-            isset($put['tableUpdate'])
-            and isset($put['id'])
-            and isset($put['column'])
-            and isset($put['value'])
-        ){
-            tableUpdate($put['id'],$put['column'],$put['value']);
-        }
-        elseif(isset($put['set_test_id']) and !empty($put['set_test_id'])){
-            $_SESSION['ourUNI_test_id'] = $put['set_test_id'];
-        }   
-        elseif(isset($put['end_exam']) and isset($put['id'])){
-            end_exam($put['id']);
+        switch($part1){
+            case 'table':
+                if(isset($put['column'])
+                and isset($put['value']) and !empty($part2)){
+                    tableUpdate($part2,$put['column'],$put['value']);
+                    
+                }
+                break;
+            case 'test':
+                if(!empty($part2)){
+                    $_SESSION['ourUNI_test_id'] = $part2;
+
+                }
+                break;
+            case 'exam':
+                if(!empty($part2)){
+                    end_exam($part2);
+
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
     elseif($_SERVER["REQUEST_METHOD"]=="DELETE"){
-        $uri = $_SERVER["REQUEST_URI"];
-        // $delete = $_GET;
-        $request = explode('/', $uri);
-        $part1 = $request[count($request)-2];
-        $id = $request[count($request)-1];
+        switch($part1){
+            case 'table':
+                deleteQuestionRow($part2);
+                break;
+            case 'test':
+                deleteTest($part2);
+                break;
 
-        echo json_encode([$part1,$id]);
-        if($part1 == 'tableLine'){
-            
-            deleteQuestionRow($id);
-            
+            default:
+                break;
+
         }
-        elseif($part1 == 'deleteTest'){
-            deleteTest($id);
-        }
+        
+        // if($part1 == 'tableLine'){
+            
+            
+        // }
+        // elseif($part1 == 'deleteTest'){
+        //     deleteTest($part2);
+        // }
     }
 }
 else{

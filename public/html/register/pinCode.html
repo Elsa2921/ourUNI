@@ -10,30 +10,18 @@
     <link rel="stylesheet" href="/ourUNI/public/assets/css/same.css">
 </head>
 <body>
-    <div class="container-fluid  d-flex justify-content-between register_cont_fluid pt-5 pt-sm-0">
+    <div class="container-fluid  d-flex justify-content-between register_cont_fluid">
         <img src="/ourUNI/public/assets/images/library.jpg" alt="library">
-        <div class="register_cont d-flex justify-content-center align-items-start align-items-sm-center pt-5">
+        <div class="register_cont  d-flex justify-content-center align-items-center">
             <div class="register_box d-flex justify-content-center align-items-center flex-column gap-4">
 
-                <h3 class="text-white">Forgot Password</h3>
-                <form class="d-flex justify-content-start flex-column gap-4" data-val="forgotPass_form">
-                    <div class="d-flex justify-content-start align-items-center gap-4">
-                        <div>
-                            <input type="radio"  value="1" id="student" name="opt" checked>
-                            <label for="student" class="text-beige cursor-pointer">Student</label>
-                        </div>
-
-                        <div>
-                            <input type="radio" value="2" id="professor" name="opt">
-                            <label for="professor"  class="text-beige cursor-pointer">Professor</label>
-                        </div>
-                        
-                       
-                    </div>
+                <h3 class="text-white">Pin Code</h3>
+                <form class="d-flex justify-content-start flex-column gap-4" data-val="pinCode_form">
+                    
                     <div class="register_inp_div">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" id="email"  data-val="email" required>
-                        <label for="email">Email</label>
+                        <i class="fa-solid fa-key"></i>
+                        <input type="number" id="pin_code"  data-val="pin_code" required>
+                        <label for="pin_code">Pin</label>
                         
                     </div>
 
@@ -42,7 +30,6 @@
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </form>
-                <a href="login.html">Back</a>
                 <h6 class="error_m d-none">The registration data doesn't match</h6>
             </div>
         </div>

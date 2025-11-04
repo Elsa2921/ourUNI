@@ -34,11 +34,11 @@ function handleReg(form) {
         let radio = form.querySelector('input[type="radio"]:checked')
         let inps = form.querySelectorAll('input[data-val]')
         let form_attr=  form.getAttribute('data-val')
+        let rest = 'auth'
         let data = {
             form: form_attr
         }
         inps.forEach(element => {
-            
             
             let v = element.value
             let parent = element.parentElement
@@ -77,14 +77,14 @@ function handleReg(form) {
         else{
             if(form.querySelector("#password") && form.querySelector("#confirm_password")){
                 if(form.querySelector("#password").value == form.querySelector("#confirm_password").value){
-                    send(data)
+                    send(data,form_attr,rest)
                 }
                 else{
                     document.querySelector('.error_m').classList.remove('d-none');
                 }
             }
             else{
-                send(data)
+                send(data,form_attr,rest)
             }
             
         }
@@ -94,18 +94,39 @@ function handleReg(form) {
 }
 
 
+function next(type){
+    let data = {
+        'forgotPass_form':arr.pinCode,
+        'pinCode_form': arr.newPass,
+        'newPass_form':arr.login
+    }
+    let flag = false;
+    for(let i in data){
+        
+        if(i==type){
+            flag = data[i];
+            break;
+            
+        }
+    }
+    if(flag){
+        window.location.href=flag
+    }
+}
 
 
-
-async function send(arr1){
+async function send(arr1,n,rest){
     
     try{
-        const res = await fetchAPI('POST',arr1)        
+        const res = await fetchAPI('POST',arr1,rest)        
         if(res.status === 200){
-            if(arr1['type']){
+            if(arr1['type'] && n == 'login_form'){
                 let loc = ''; 
                 loc = arr1['type'] == "1" ? arr.studentProfile : arr.profile
                 window.location.href = loc
+            }
+            else{
+                next(n)
             }
             
         }
@@ -123,7 +144,8 @@ async function send(arr1){
 function regex(arr){
     let patterns= {
         email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^!&*(),.?":{}<>]).{8,}$/
+        password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^!&*(),.?":{}<>]).{8,}$/,
+        pin_code: /^[0-9]{4}$/
     }
 
 
@@ -142,9 +164,6 @@ function regex(arr){
       
     
 }
-
-
-
 
 
 

@@ -211,9 +211,8 @@ function tableUpdate($id,$col,$value){
     $tableID = $_SESSION['ourUNI_test_id'] ?? '';
     if(!empty($tableID)){
         global $class;
-        $s = $class->query("UPDATE test_questions SET `$col`=:col WHERE id=:id",
+        $class->query("UPDATE test_questions SET `$col`=:col WHERE id=:id",
     [':col'=>$value, ':id'=>$id],'id');
-        echo json_encode($s);
     }
 }
 
