@@ -108,7 +108,7 @@ function getTestName($u_id,$tableID){
 function getQuestions($u_id,$table_id){
     global $class;
     $query = "SELECT  tn.test_name, s.subject,
-    tq.question, tq.1, tq.2, tq.3, tq.4, tq.answer, tq.points,tq.id
+    tq.question, tq.opt_1, tq.opt_2, tq.opt_3, tq.opt_4, tq.answer, tq.points,tq.id
     FROM test_names AS tn
     INNER JOIN prof_subjects AS ps
         ON ps.id = tn.prof_subject_id

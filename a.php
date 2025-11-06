@@ -1,7 +1,8 @@
 <?php
 // date_default_timezone_set("UTC");
 // $dt = new DateTime();
-// print_r($dt->format('Y-m-d H:i:s'));
+// $dt->modify("+ 1 minutes")->format('Y-m-d H:i:s');
+// print_r($dt);
 session_start();
 print_r($_SESSION);
 // session_destroy();

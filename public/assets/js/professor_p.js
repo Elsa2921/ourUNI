@@ -516,15 +516,12 @@ function drawTest(data){
     questions.forEach(element => {
         count++
         str+=`
-            <div class="question_box">
-                <div class="d-flex justify-content-between align-items-center w-100">
-                    <h5>${count}.${element['question']}</h5>
-                    <span>${element['points']}</span>
-                </div>
-                <p>1.${element['1']}</p>
-                <p>2.${element['2']}</p>
-                <p>3.${element['3']}</p>
-                <p>4.${element['4']}</p>
+            <div class="question_box d-flex justify-content-start align-items-start gap-4 flex-column">
+                <h4 class='text-color3 font-600'> ${count}. ${element.question} (${element.points})</h4>
+                <p>1.${element['opt_1']}</p>
+                <p>2.${element['opt_2']}</p>
+                <p>3.${element['opt_3']}</p>
+                <p>4.${element['opt_4']}</p>
             </div>
         `
     });
@@ -699,7 +696,7 @@ function set_test_id(){
 
 
 // ---------------------  table functions  -----------------------
-// ----------------                                ---------------                
+// ----------------                                ---------------
 //  ---------------                                ---------------
 // ----------------                                ---------------
 // ----------------                                ---------------
@@ -747,10 +744,10 @@ function drawTable(data){
             str+= `
             <tr>
                 <td class='tableCol' data-id=${element['id']} data-col='question' contentEditable>${element['question']}</td>
-                <td class='tableCol' data-id=${element['id']} data-col='1' contentEditable>${element['1']}</td>
-                <td class='tableCol' data-id=${element['id']} data-col='2' contentEditable>${element['2']}</td>
-                <td class='tableCol' data-id=${element['id']} data-col='3' contentEditable>${element['3']}</td>
-                <td class='tableCol' data-id=${element['id']} data-col='4' contentEditable>${element['4']}</td>
+                <td class='tableCol' data-id=${element['id']} data-col='opt_1' contentEditable>${element['opt_1']}</td>
+                <td class='tableCol' data-id=${element['id']} data-col='opt_2' contentEditable>${element['opt_2']}</td>
+                <td class='tableCol' data-id=${element['id']} data-col='opt_3' contentEditable>${element['opt_3']}</td>
+                <td class='tableCol' data-id=${element['id']} data-col='opt_4' contentEditable>${element['opt_4']}</td>
                 <td class='tableCol' data-id=${element['id']} data-col='answer' contentEditable>${element['answer']}</td>
                 <td class='tableCol' data-id=${element['id']} data-col='points' contentEditable>${element['points']}</td>
                 <td class='tableCol' data-id=${element['id']}>

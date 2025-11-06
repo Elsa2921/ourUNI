@@ -2,6 +2,7 @@
 require_once __DIR__ . '/registration/authentication.php';
 require_once __DIR__ . '/main/loggedChecker.php';
 require_once __DIR__ . '/main/profFunctions.php';
+require_once __DIR__. '/main/studentFunctions.php';
 date_default_timezone_set("UTC");
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
@@ -101,7 +102,25 @@ if (empty($origin) || $origin==$_ENV['APP_ALLOWED_ORIGIN']) {
                             }
                     }
                 }
-
+            case 'student':
+                if($part2){
+                    switch($part2){
+                        case 'startExam' :
+                            if(isset($post['exam_id']) and !empty($post['exam_id'])){
+                                startExam_student($post['exam_id']);
+                            }
+                            break;
+                        case 'answerQuestion':
+                            if(isset($post['id']) and isset($post['opt'])){
+                                $opts = ['opt_1','opt_2','opt_3','opt_4'];
+                                if(!empty($post['id']) and in_array($post['opt'],$opts)){
+                                    answerQuestion($post['id'],$post['opt']);
+                                }
+                            }
+                        default:
+                            break;
+                    }
+                }
             default:
                 break;
         }
@@ -158,6 +177,24 @@ if (empty($origin) || $origin==$_ENV['APP_ALLOWED_ORIGIN']) {
                 }
                 break;
             case 'student':
+                if($part2){
+                    switch($part2){
+                        case 'subjects':
+                            subjectReload();
+                            break;
+                        
+                        case 'activeExams' :
+                            activeExamsReload();
+                            break;
+                        case 'takeExam' :
+                            takeExamReload();
+                            break;
+                       
+                        default:
+                            echo json_encode(['dsf']);
+                            break;
+                    }
+                }
                 if(isset($_GET['search'])){
 
                     studentSearch($_GET['search']);
@@ -168,7 +205,7 @@ if (empty($origin) || $origin==$_ENV['APP_ALLOWED_ORIGIN']) {
                     testNameReload();
 
                 }
-                break;
+                break;    
 
             default:
                 break;

@@ -19,5 +19,11 @@ export  const arr = {
     'createTest': '/ourUNI/public/html/prof_pages/createTest.html',
     'pinCode' : '/ourUNI/public/html/register/pinCode.html',
     'newPass' : '/ourUNI/public/html/register/newPass.html',
-    'forgotPass' : '/ourUNI/public/html/register/forgotPass.html'
+    'forgotPass' : '/ourUNI/public/html/register/forgotPass.html',
+    'takeExam' : '/ourUNI/public/html/student_pages/takeExam.html',
+    'subjects' : '/ourUNI/public/html/student_pages/subjects.html',
+    'StudentExamResults' : '/ourUNI/public/html/student_pages/examResults.html',
+    'activeExams' : '/ourUNI/public/html/student_pages/activeExams.html'
+
+
 };

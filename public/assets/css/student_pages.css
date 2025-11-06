@@ -1,0 +1,85 @@
+:root{
+    --dark-pink:#FD5852;
+    --black: #332622;
+    --white:#F8F5F4;
+    --blue-green: #247ba0;
+    --blue:#5f758e;
+    --beige: #e6dece;
+
+}
+
+
+.subject_cards{
+    width: 31%;
+    border-radius: 10px;
+    border-top-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    border: 4px solid var(--blue-green);
+    overflow: hidden;
+}
+
+
+
+
+.activeExam_card{
+    border-radius: 13px;
+    width: 48%;
+    overflow: hidden;
+    box-shadow: 2px 2px 4px gray;
+    height:200px;
+}
+
+.activeExam_info{
+    width: 35%;
+    background-color: var(--black);
+    height: 100% !important;
+}
+
+
+.activeExam_more{
+    width: 65%;
+}
+
+
+
+
+@media(max-width : 992px){
+    .subject_cards{
+        width: 48%;
+    }
+
+    .activeExam_card{
+        width: 80%;
+        height:190px;
+    }
+
+}
+
+
+@media(max-width : 768px){
+    .subject_cards{
+        width: 100%;
+    }
+
+    .activeExam_card{
+        width: 100%;
+    }
+}
+
+
+@media(max-width: 576px){
+    .activeExam_card{
+        height: fit-content;
+        border-radius: 9px;
+    }
+
+    .activeExam_info{
+        width: 100%;
+        height: fit-content;
+    }
+
+    .activeExam_more{
+        width: 100%;
+        height: fit-content;
+    }
+}

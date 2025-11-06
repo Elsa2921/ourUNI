@@ -46,7 +46,8 @@ class Base{
             };
         }
         catch(Exception $e){
-            return ['error'=> $e->getMessage()];
+            return ['error'=>$e->getMessage()];
+            // throw new Exception($e->getMessage());
         }
     }
 
