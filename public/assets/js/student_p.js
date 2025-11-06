@@ -166,12 +166,29 @@ const takeExam = ()=>{
 const  take_exam_reload =async () =>{
     const clas = document.querySelector('.take_exam') ?? null
     if (clas){
+        
+        
         const params = 'student/takeExam'
         const res = await fetchAPI('GET',{},params);
         if(res.status == 200){
             const data = await res.json()
             if(data.exam && data.exam.length!==0){
                 drawExamQuestions(data.exam[0])
+                
+                
+                setInterval(() => {
+                    const format = new Date().toISOString().slice(0, 19).replace('T', ' ')
+                    const now = new Date(format)
+                    const end =new Date(data.exam[0].end_time)
+                    const diffMs = end - now;
+                    const minutes = Math.trunc(diffMs / 1000 / 60)
+                    const m2 = diffMs / 1000 / 60
+                    const s = Math.round((m2-minutes) * 60)
+                    document.querySelector('#remaining_time').innerHTML = `${minutes} : ${s}`
+                    if(s<=0 && minutes<=0){
+                        window.location.reload()
+                    }
+                }, 1000);
             }
             else{
                 window.location.href = arr.studentProfile
@@ -191,31 +208,36 @@ const drawExamQuestions = (data) => {
     let str = ''
     if(data.length !== 0){
         let count = 0
-        str+= `<h3 class='w-100 font-600 text-color2'>${data.exam_name}</h3>`
+        str+= `
+        <h3 class='w-100 font-600 text-color2'>${data.exam_name}</h3>
+        <h4 id='remaining_time'>0:0</h4>
+        `
         const qst  = JSON.parse(data.questions)
         if(qst.length!==0){
             qst.forEach(element=>{
+                console.error(element)
                 count++
                 str+=`
                 <div class="question_box d-flex justify-content-start align-items-start gap-4 flex-column">
                     <h4 class='font-600 text-color3'> ${count}. ${element.question} (${element.points})</h4>
+                
                     <div>
                         <input type="radio" data-id='${element.question_id}' data-opt = 'opt_1' class='question_radios'
-                         name="q${element.question_id}" id="opt1${element.question_id}">
+                         name="q${element.question_id}" ${element.answer=='opt_1' ? 'checked' : ''} id="opt1${element.question_id}">
                         <label class='cursor-pointer' for="opt1${element.question_id}">${element.opt_1}</label>
                     </div>
                     <div>
                         <input type="radio" data-id='${element.question_id}' data-opt = 'opt_2' class='question_radios'
-                         name="q${element.question_id}" id="opt2${element.question_id}">
+                         name="q${element.question_id}" ${element.answer=='opt_2' ? 'checked' : ''} id="opt2${element.question_id}">
                         <label class='cursor-pointer' for="opt2${element.question_id}">${element.opt_2}</label>
                     </div>
                     <div>
-                        <input type="radio" data-id='${element.question_id}' data-opt = 'opt_3' class='question_radios'
+                        <input type="radio" ${element.answer=='opt_3' ? 'checked' : ''} data-id='${element.question_id}' data-opt = 'opt_3' class='question_radios'
                          name="q${element.question_id}" id="opt3${element.question_id}">
                         <label class='cursor-pointer' for="opt3${element.question_id}">${element.opt_3}</label>
                     </div>
                     <div>
-                        <input type="radio" data-id='${element.question_id}' data-opt = 'opt_4' class='question_radios'
+                        <input type="radio" ${element.answer=='opt_4' ? 'checked' : ''} data-id='${element.question_id}' data-opt = 'opt_4' class='question_radios'
                          name="q${element.question_id}" id="opt4${element.question_id}">
                         <label class='cursor-pointer' for="opt4${element.question_id}">${element.opt_4}</label>
                     </div>

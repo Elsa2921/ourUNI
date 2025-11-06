@@ -100,7 +100,8 @@ function getMyExam($s_id,$student_exam_id,$exam_id){
                 'opt_2' , tq.opt_2,
                 'opt_3' , tq.opt_3,
                 'opt_4' , tq.opt_4,
-                'points', tq.points
+                'points', tq.points,
+                'answer', sa.answer
                 ) 
             ),
         ']'
@@ -115,6 +116,9 @@ function getMyExam($s_id,$student_exam_id,$exam_id){
         ON tn.id = es.test_id
     INNER JOIN test_questions AS tq
         ON tq.test_id = tn.id
+    LEFT JOIN student_answers AS sa
+        ON sa.student_exam_id = se.id
+        AND sa.question_id = tq.id
     WHERE se.id=:id
         AND se.student_id = :s_id 
         AND se.exam_id = :e_id
