@@ -3,6 +3,7 @@ import { arr } from "./links.js";
 import { fetchAPI } from './script.js';
 document.addEventListener('DOMContentLoaded',() =>{
     p_log();
+    s_log()
     logout();
 })
 
@@ -16,17 +17,36 @@ function logout(){
     })
 }
 
+async function s_log(){
+    const prof = document.querySelector('.student_profile_cont') ?? null
+    if(prof){
+        const checker = await logChecker(1);
+        if(!checker.profile || checker.profile.role !==1){
+            window.location.href=arr.index;
+        }
+        else{
+            const profile= checker.profile;
+            document.getElementById('profile_name').innerHTML = profile.name
+            document.getElementById('phone_number').innerHTML = 'phone :'+profile.phone
+        }
 
+    }
+    
+}
 
 async function p_log(){
-    const checker = await logChecker(1);
-    if(!checker.profile){
-        window.location.href=arr.index;
-    }
-    else{
-        const profile= checker.profile;
-        document.getElementById('profile_name').innerHTML = profile.name
-        document.getElementById('phone_number').innerHTML = 'phone :'+profile.phone
+    const prof = document.querySelector('.prof_profile_cont') ?? null
+    if(prof){
+        const checker = await logChecker(1);
+        if(!checker.profile || checker.profile.role !==2){
+            window.location.href=arr.index;
+        }
+        else{
+            const profile= checker.profile;
+            document.getElementById('profile_name').innerHTML = profile.name
+            document.getElementById('phone_number').innerHTML = 'phone :'+profile.phone
+        }
+
     }
     
 }

@@ -6,6 +6,7 @@ class Base{
     protected $username;
     private $db;
     public $host;
+    private $pdo;
     public function __construct($username,$password,$db,$host){
         $this->password = $password;
         $this->username = $username;
@@ -18,18 +19,39 @@ class Base{
 
     public function connect(){
         try{
-            return new PDO("mysql:host=$this->host; dbname=$this->db",$this->username, $this->password,[
-                PDO::ATTR_ERRMODE=> PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE =>PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false
-            ]);
-        }catch(PDOException $e){
-            throw new Exception("Connection Faild: ". $e->getMessage());
+            if($this->pdo === NULL){
+                 $this->pdo =  new PDO("mysql:host=$this->host; dbname=$this->db; charset=utf8mb4"
+                 ,$this->username, $this->password,[
+                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                     PDO::ATTR_EMULATE_PREPARES => false
+                 ]);
+            }
+            return $this->pdo;
+             
+         }catch(PDOException $e){
+             throw new Exception("Connection failed: " . $e->getMessage());
+         }
+    }
+
+
+    public function commit(){
+        if($this->pdo && $this->pdo->inTransaction()){
+            $this->pdo->commit();
         }
     }
 
 
+    public function beginTransaction(){
+        return $this->connect()->beginTransaction();
+    }
 
+
+    public function rollBack(){
+        if($this->pdo && $this->pdo->inTransaction()){
+            $this->pdo->rollBack();
+        }
+    }
 
     public function query($prepare, $execute=[],$fetchMode = 'all'){
         try{

@@ -32,3 +32,14 @@ export async function fetchAPI(method="GET",data={},part=''){
     }
 }
 
+
+export function changeFormat(date,type=1){
+    let time = new Date(date)
+    let year = time.toDateString().slice(4,)
+    let data  = year
+    if(type){
+        time = time.toTimeString().slice(0,5)
+        data  = year + ' ' + time
+    }
+    return data ?? 404
+}

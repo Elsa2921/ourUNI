@@ -4,14 +4,25 @@ require_once __DIR__. '/../base/base.php';
 
 function getProfSubjects($id){
     global $class;
-    $query = "SELECT ps.id as prof_subj_id, s.subject,f.faculty, s.year_level 
-    
+    $query = "SELECT  f.faculty, s.year_level, 
+    CONCAT(
+        '[',
+        GROUP_CONCAT(
+            JSON_OBJECT(
+            'subject', s.subject,
+            'prof_subj_id', ps.id 
+            
+            )
+        ),
+        ']'
+    ) AS subjects
     FROM prof_subjects AS ps
     INNER JOIN subjects AS s
         ON s.id = ps.subject_id
     INNER JOIN faculties AS f
         ON f.id = s.faculty_id
     WHERE ps.prof_id = :prof_id
+    GROUP BY f.faculty,s.year_level
     ";
     $execute = [':prof_id'=>$id];
     $stmt = $class->query($query,$execute);
@@ -52,37 +63,26 @@ function getExamName($examId,$id){
 
 
 function getViewStudents($examId,$type){
-    $t = '0';
+    $t = 0;
     if($type=='inProgress'){
-        $t='1';
+        $t=1;
     }
     global $class;
-    $pdo = $class->connect();
-    $stmt = $pdo->prepare("SELECT student_id,start,end 
-    FROM student_exam WHERE exam_id=:exam_id AND process=:p");
-    $stmt->execute([':exam_id'=>$examId, ':p'=>$t]);
-    $data = $stmt->fetchAll();
+    $query = "SELECT se.start,se.end , s.full_name
+    FROM student_exam AS se
+    INNER JOIN students AS s
+        ON s.id = se.student_id
+    WHERE exam_id=:exam_id 
+    AND process=:p";
+    $execute = [':exam_id'=>$examId, ':p'=>$t];
+    $data = $class->query($query,$execute);
+    // $data = $stmt->fetchAll();
     // return $data;
-    return getStudentNames($data);
-}
-
-
-
-# ???
-function getStudentNames($data){
-    global $class;
-    $query = "SELECT full_name FROM students WHERE id=:id";
-    foreach($data as &$value){
-        $value['full_name']  ='';
-        $stmt = $class->query($query,[':id'=>$value['student_id']],'column');
-        if(!empty($stmt)){
-            $f_name = $stmt;
-            $value['full_name']  = $f_name;
-        }
-    }
-
     return $data;
 }
+
+
+
 
 
 function getTestName($u_id,$tableID){
@@ -157,6 +157,41 @@ function getAllTests($id){
 }
 
 
+function getAllTestsR($id){
+    global $class;
+    
+    $query = "SELECT 
+    s.subject,s.year_level , f.faculty,
+    CONCAT(
+        '[',
+        GROUP_CONCAT(
+            JSON_OBJECT(
+                'test_name', tn.test_name,
+                'id', tn.id
+            )
+        ),
+        ']'
+    ) AS test_info
+    FROM test_names AS tn
+    INNER JOIN prof_subjects AS ps
+        ON ps.id = tn.prof_subject_id
+    INNER JOIN subjects AS s
+        ON s.id = ps.subject_id
+    INNER JOIN faculties AS f
+        ON f.id = s.faculty_id
+    LEFT JOIN test_questions AS tq
+        ON tn.id = tq.test_id    
+    WHERE ps.prof_id = :prof_id
+    GROUP BY f.faculty, s.year_level,s.subject
+    ORDER BY tn.date DESC";
+
+    
+    $execute = [':prof_id'=>$id];
+
+    // return $class->query($query,$execute);
+    return $class->query($query,$execute);
+}
+
 function getExams($id){
     global $class;
     $query = "SELECT 
@@ -164,7 +199,7 @@ function getExams($id){
     es.exam_duration, 
     es.max_points,
     es.min_points , 
-    es.participants ,
+    COALESCE(COUNT(se.id),0) AS participants ,
     es.start_time,
     tn.test_name,
     f.faculty,
@@ -179,12 +214,45 @@ function getExams($id){
         ON s.id = ps.subject_id
     INNER JOIN faculties AS f
         ON f.id = s.faculty_id
+    LEFT JOIN student_exam AS se
+        ON se.exam_id = es.id
     WHERE es.status=:status
     AND ps.prof_id=:prof_id
+    GROUP BY 
+    es.id, es.exam_duration, es.max_points, es.min_points, es.start_time,
+    tn.test_name, f.faculty, s.subject, s.year_level    
     ORDER BY es.start_time DESC";
     $execute = [':prof_id'=>$id,':status'=>1];
     $flag = $class->query($query,$execute);
     return $flag;
+}
+
+
+
+function examResultsReloadProf($id, $sub_id){
+    global $class;
+    $query = "SELECT s.full_name as student_name, es.exam_name, f.faculty, sub.subject,
+    er.points, er.time, er.is_qualified
+    FROM prof_subjects AS ps
+    INNER JOIN subjects AS sub 
+        ON sub.id = ps.subject_id
+    INNER JOIN faculties AS f
+        ON f.id = sub.faculty_id
+    INNER JOIN test_names AS tn
+        ON tn.prof_subject_id = ps.id
+    INNER JOIN exam_start AS es
+        ON es.test_id = tn.id
+    INNER JOIN exam_results AS er
+        ON er.exam_id = es.id
+    INNER JOIN students AS s
+        ON s.id = er.student_id
+    WHERE ps.prof_id = :prof_id
+    AND ps.id = :sub_id
+    GROUP BY es.id
+    ORDER BY er.time DESC
+    ";
+    $execute = [':prof_id' => $id, ':sub_id' => $sub_id];
+    return $class->query($query,$execute);
 }
 
 ?>

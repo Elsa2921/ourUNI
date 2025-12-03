@@ -40,6 +40,14 @@
     width: 65%;
 }
 
+.takeExam_top{
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 2px 2px 2px gray;
+    background-color: white;
+}
+
 
 
 

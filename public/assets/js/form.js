@@ -13,7 +13,6 @@ function form_(){
             }else{
                 element.classList.remove('not_empty')
             }
-            console.log(element.value)
         })
         
     });

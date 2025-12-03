@@ -228,12 +228,38 @@ h6, p, label {
     text-decoration: none;
 }
 
+
+
+#myCanva{
+    height:80vh !important;
+}
+
+
+#select_subject{
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: var(--beige);
+    color: var(--black);
+    border: none;
+    outline: none;
+}
+
+label ,input[type='checkbox']{
+    cursor: pointer;
+}
+
+
 @media(max-width:992px){
     .black-btn{
         font-weight: 500;
         padding: 6px 20px;
         font-size: 15px;
     }
+
+    #myCanva{
+        height:70vh !important;
+    }
+    
 }
 
 
@@ -249,6 +275,11 @@ h6, p, label {
         padding: 6px 15px;
         font-size: 15px;
     }
+
+    #myCanva{
+        height:60vh !important;
+    }
+    
 
 }
 
@@ -269,4 +300,8 @@ h6, p, label {
         padding: 4px 13px;
         font-size: 14px;
     }
+    #myCanva{
+        height:50vh !important;
+    }
+    
 }

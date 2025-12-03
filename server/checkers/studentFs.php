@@ -32,6 +32,7 @@ function getActiveExams($id){
     FROM students AS s 
     INNER JOIN subjects AS sb
         ON sb.faculty_id = s.faculty_id
+        AND sb.year_level = s.year_level
     INNER JOIN prof_subjects AS ps
         ON ps.subject_id = sb.id
     INNER JOIN test_names AS tn
@@ -130,5 +131,34 @@ function getMyExam($s_id,$student_exam_id,$exam_id){
     $res = $class->query($query,$execute);
     return $res;
 
+}
+
+
+
+function getStudentExamResults($id){
+    global $class;
+    $query = "SELECT  er.points, er.time, er.is_qualified,
+    es.exam_name, p.full_name as prof_name, s.subject
+    FROM exam_results AS er
+    INNER JOIN exam_start AS es 
+        ON es.id = er.exam_id
+        AND es.status = :status
+    INNER JOIN test_names AS ts
+        ON ts.id = es.test_id
+    INNER JOIN prof_subjects AS ps
+        ON ps.id = ts.prof_subject_id
+    INNER JOIN subjects AS s
+        ON s.id =  ps.subject_id
+    INNER JOIN professors AS p
+        ON p.id = ps.prof_id
+    WHERE er.student_id = :s_id
+    ORDER BY er.time DESC
+    ";
+    $execute = [
+        ':status' => 0,
+        ':s_id' => $id
+    ];
+    return $class->query($query,$execute);
+    
 }
 ?>

@@ -112,11 +112,18 @@ if (empty($origin) || $origin==$_ENV['APP_ALLOWED_ORIGIN']) {
                             break;
                         case 'answerQuestion':
                             if(isset($post['id']) and isset($post['opt'])){
-                                $opts = ['opt_1','opt_2','opt_3','opt_4'];
+                                $opts = [1,2,3,4];
                                 if(!empty($post['id']) and in_array($post['opt'],$opts)){
                                     answerQuestion($post['id'],$post['opt']);
                                 }
                             }
+                            break;
+                        case 'examFinish' :
+                            finshExam();
+                            break;
+                        case 'examEndTime' :
+                            finshExam(0);
+                            break;
                         default:
                             break;
                     }
@@ -168,12 +175,21 @@ if (empty($origin) || $origin==$_ENV['APP_ALLOWED_ORIGIN']) {
                 break;
 
             case 'exam':
-                if(is_int($part2)){
+                if(ctype_digit($part2)){
                     examView($part2);
 
                 }
                 else{
                     viewExamReload($part2);
+                }
+                break;
+            
+            case 'prof':
+                if($part2){
+                    if($part2 == 'examsResults'){
+                        $selected = $_GET['selectedSub'] ?? null;
+                        examsResultsReload($selected);
+                    }
                 }
                 break;
             case 'student':
@@ -189,7 +205,10 @@ if (empty($origin) || $origin==$_ENV['APP_ALLOWED_ORIGIN']) {
                         case 'takeExam' :
                             takeExamReload();
                             break;
-                       
+                        case 'examResults' :
+                            examResultsReloadStudent();
+                            break;
+                            
                         default:
                             echo json_encode(['dsf']);
                             break;

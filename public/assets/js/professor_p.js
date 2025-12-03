@@ -1,5 +1,5 @@
 import { arr } from "./links.js";
-import { fetchAPI } from './script.js';
+import { fetchAPI,changeFormat } from './script.js';
 
 document.addEventListener('DOMContentLoaded',function(){
     CreateTestName()
@@ -9,8 +9,7 @@ document.addEventListener('DOMContentLoaded',function(){
     startExamReload();
     examProgressReload()
     viewExamReload()
-    examRes_OpenFilters();
-    examRes_search();
+    examResReload()
     testNameReload();
 })
 
@@ -58,37 +57,173 @@ function permission_btns(parent){
 
 
 
-function examRes_OpenFilters(){
-    const btns = document.querySelectorAll('.examRes_filters_btn')
-    if(btns){
-        btns.forEach(element=>{
-            element.addEventListener('click', function(){
-                let block = document.querySelector('.examFilterSearch_block')
-                const status = element.getAttribute('data-status')
-                if(status=="1"){
-                    if(element.getAttribute('data-type') && element.getAttribute('data-type')=='search'){
-                        document.querySelector('.search_box').style.display="block"
-                        document.querySelector('.filter_box').style.display="none"
-                    }
-                    else{
-                        document.querySelector('.filter_box').style.display="block"
-                        document.querySelector('.search_box').style.display="none"
+const examResReload = async() => {
+    const div = document.querySelector('.exam_results_area') ?? 0
+    if(div){
+        // examRes_OpenFilters();
+        // examRes_search();
+        const params = 'prof/examsResults'
+        let dataSelected = {'selectedSub' : null}
+        if(sessionStorage.getItem('filterSubject')){
+            dataSelected['selectedSub'] = parseInt(sessionStorage.getItem('filterSubject')) ?? null;
+        }
+        
+        const res = await fetchAPI('GET', dataSelected ,params)
+        if(res.status == 200){
+            const data = await res.json()
+            if(data.examRes){
+                showCanvas()
+                setInfo(data.examRes)
+                drawResults(data.examRes)
+            }
+            if(data.subjects){
+                drawSubjects(data.subjects,1)
+            }
 
-                    }
+        }
+        else{
+            window.location.href = arr.index
+        }
 
-                    block.style.left = 0
-                
-                }
-                else{
-                    close(block,'-580px')
-                }
-            })
-        })
     }
+    
+    
 }
 
-function close(element,left){
-    element.style.left = left
+const showCanvas = () =>{
+    let inp = document.querySelector('#res_type')
+    inp.addEventListener('input',function(){
+        const canva = document.getElementById('myCanva')
+        const cont = document.querySelector('.exam_results_area')
+        if(inp.checked){
+            canva.classList.add('d-block')
+            canva.classList.remove('d-none')
+            
+            cont.classList.remove('d-block')
+            cont.classList.add('d-none')
+        }
+        else{
+            cont.classList.add('d-block')
+            cont.classList.remove('d-none')
+            
+            canva.classList.remove('d-block')
+            canva.classList.add('d-none')
+        }
+    })
+}
+
+
+
+const setInfo = (data) =>{
+    const newArr = {}
+    const datesSet = new Set()
+    data.forEach(element => {
+        datesSet.add(element.time)
+        if(element.subject in newArr){
+            newArr[element.subject]['pointsArr'].push(element.points)
+            newArr[element.subject]['namesArr'].push(element.exam_name)
+            newArr[element.subject]['date'].push(element.time)
+
+        }
+        else{
+            newArr[element.subject]= {
+                'namesArr' : [element.exam_name],
+                'pointsArr' : [element.points],
+                'date' : [element.time]
+            }
+
+        }
+    })
+
+    const dates = [...datesSet]
+
+    drawCanva(newArr,dates)
+
+
+}
+
+
+const drawCanva = (data,labels) => {
+    const id = document.getElementById('myCanva')
+    const dataset = []
+    for(let subject in data){
+        const pointsArr = labels.map(labelDate => {
+            const pointObj = data[subject].date.find(p => p == labelDate);
+            return pointObj ? data[subject]['pointsArr'][data[subject].date.indexOf(pointObj)] : 0; 
+        });
+        dataset.push({
+            label: subject,
+            data: pointsArr
+        })
+        
+    }
+
+    new Chart(id, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: dataset
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales:{
+                y: {
+                    min: 0,
+                    max: 100
+                }
+            }
+        }
+    })
+}
+
+
+const filterResultBySubject = () =>{
+    const select = document.querySelector('#select_sub')
+    if(sessionStorage.getItem('filterSubject')){
+        select.value = sessionStorage.getItem('filterSubject')
+    }
+    select.addEventListener('change', function(){
+        sessionStorage.setItem('filterSubject',select.value)
+        window.location.reload()
+    })
+}
+
+
+const drawResults = (data) => {
+    let str = ''
+    if(data.length==0){
+        str = `<h4>404 not found</h4>`
+    }
+    else{
+        data.forEach(element=> {
+            const date = changeFormat(element.time,0)
+
+            str+= `
+                <div class="main_card bg-white rounded-2xl shadow p-5 border">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-4 mb-2">
+                        <h4 class="text-lg font-600 letter-s text-color1">${element.exam_name}</h4>
+                        <span class='letter-s text-gray'>${date}</span>
+                    </div>
+                    <p class="text-sm text-slate-600">${element.subject}</p>
+
+                    <div class="mt-3 d-flex justify-content-between flex-wrap gap-4 align-items-center  ${element.is_qualified ? 'text-color3' : 'text-color1'}">
+                        <span class="font-400 ">${element.is_qualified ? 'Qualified' : 'Not Qualified'}</span>
+                        <span class="font-600 letter-s">Points : ${element.points}</span>
+                    </div>
+                    <div class="mt-3 border-top pt-3 letter-s">
+                        <span>${element.faculty}</span>
+   
+                    </div>
+                    <div class="mt-3 border-top pt-3 text-end letter-s">
+                        <span>${element.student_name}</span>   
+                    </div>
+                </div>
+            `
+        })
+    }
+
+    document.querySelector('.exam_results_area').innerHTML = str
 }
 
 
@@ -169,14 +304,14 @@ async function viewExamReload(){
     const cont = document.getElementById('viewExam_c')
     
     if(cont){
-        setViewSession();
         viewExamType();
-        const type = sessionStorage.getItem('viewActive')
+        setViewSession();
+        const type = sessionStorage.getItem('viewActive') ?? 'inProgress'
         const params = `exam/${type}`
         const res = await fetchAPI('GET',{},params)
 
         if(res.status===403){
-            pass
+            window.location.href = arr.index
 
         }
         else{
@@ -223,6 +358,7 @@ function viewExamType(){
         el.addEventListener('click',async function() {
             const type = el.getAttribute('data-info')
             console.error(type)
+            el.classList.add('active')
             sessionStorage.setItem('viewActive',type)
             window.location.reload()
         })
@@ -237,10 +373,17 @@ function setViewSession(){
         window.location.reload();
     }
     else{
+        const arr = ['inProgress', 'finished']
         const data = sessionStorage.getItem('viewActive')
-        let active = document.querySelector(`.view_exam_status[data-info=${data}]`)
-        active.setAttribute('data-active',1)
-        active.classList.add('active')
+        if(arr.includes(data)){
+            let active = document.querySelector(`.view_exam_status[data-info='${data}']`)
+            active.setAttribute('data-active',1)
+            active.classList.add('active')
+        }else{
+            sessionStorage.removeItem('viewActive')
+            window.location.reload()
+        }
+        
         
     }
 }
@@ -267,15 +410,17 @@ function setViewSession(){
 
 
 async function examProgressReload(){
-    const el = document.getElementById('examsInPorgress')
+    const el = document.getElementById('examsInPorgress') ?? null
     if(el){
         const params = 'exams'
         const res = await fetchAPI('GET',{},params)
-        const data = await res.json();
-        if(data['exams']){
+        console.log(res.status)
+        if(res.status && res.status==200){
+            const data = await res.json();
             drawExams(data['exams']);
+
         }
-        else if(data['status'] && data['status']==403){
+        else{
             window.location.href = arr.index;
         }
        
@@ -293,21 +438,30 @@ function drawExams(data){
     if(data.length!==0){
         data.forEach((element)=>{
             console.error(element)
+            let date = changeFormat(element['start_time'])
+            console.error(date)
             str+= ` 
-                <div class="examProgress_box d-flex justify-content-center align-items-start gap-2 flex-column">
-                    <h4 class="w-100 text-center">${element.test_name}</h4>
-                    <h5 class="w-100 text-center">${element.faculty}</h5>
-                    <h6>Duration : <b>${element.exam_duration}</b> minutes</h6>
-                    <p>Min points : <b>${element.min_points}</b></p>
-                    <p>Max points : <b>${element['max_points']}</b></p>
-                    <span>Participants : <b>${element['participants']}</b></span>
-                    <span>started date : <b>${element['start_time']}</b></span>
+                <div class="main_card p-5 border shadow d-flex justify-content-center align-items-start gap-3 flex-column">
+                    <h3 class="w-100 text-center text-color1">${element.test_name}</h3>
+
+                    <div class='mt-4 w-100 d-flex justify-content-start gap-5 flex-wrap pb-3 border-bottom'>
+                        <h6><i class="fa-regular fa-clock"></i>  <b class='text-color3'>${element.exam_duration}</b> minutes</h6>
+                        <p><i class="fa-solid fa-user-group"></i>  <b class='text-color3'>${element['participants']}</b></p>
+                    </div>
+                    <div class='w-100 d-flex justify-content-start gap-5 flex-wrap'>
+                        <p>Min : <b class='text-color2'>${element.min_points}</b></p>
+                        <p>Max : <b class='text-color2'>${element['max_points']}</b></p>
+                    </div>
+                    <span>Started  <b class='text-color3'>${date}</b></span>
                     <div class="d-flex justify-content-start align-items-start flex-wrap gap-3 pt-3">
                         <button data-id=${element['id']} class="black-btn exam_view_btn">View</button>
                         <button class="pink-btn end_exam_btn" data-name=${element.faculty} data-id=${element['id']}>End Exam</button>
                     </div>
+                    <h6 class="w-100 text-end mt-3 pt-3 border-top text-color2">
+                        <i class="fa-solid fa-school-flag"></i> ${element.faculty}
+                    </h6>
                     
-
+                    
                 </div>
             `
         })
@@ -408,11 +562,16 @@ function drawTests(data){
         <option value="0"  selected disabled hidden>Select the test</option>
     `
     data.forEach(element => {
-        str+= `
-            <option value=${element.id} data-maxpoint="${element.total_points}"> ${element.test_name} (${element.subject})</option>
-        `
-        
+        str += `<optgroup label='${element.faculty}'>`
+            const test_info = JSON.parse(element['test_info'])
+            test_info.forEach(test =>{
+                str+= `
+                    <option value=${test.id} data-maxpoint=""> ${test.test_name} (${element.subject})</option>
+                `
+            })
+        str+= `</optgroup>`       
     });
+    //
     document.getElementById('select_faculty').innerHTML = str
     startExam_form();
 }
@@ -556,18 +715,13 @@ async function  testsReload(){
         try{
             const params = 'tests'
             const res = await fetchAPI('GET',{},params)
-            let data =await res.json();
-            if(data['error']){
-                alert(data['error'])
+            if(res.status == 200){
+                let data =await res.json();
+                drawTestInfo(data['data']);
+
             }
-            else if(data['status']){
-                if(data['status']==403){
-                    window.location.href = arr.index
-                }
-                else if(data['status']==200){
-                    console.error(data)
-                    drawTestInfo(data['data']);
-                }
+            else{
+                window.location.href = arr.index
             }
         }
         catch(error){
@@ -585,8 +739,9 @@ function drawTestInfo(data){
     let str = '';
     if(data.length > 0){
         data.forEach(element => {
+            let date = changeFormat(element.date)
             str+=`
-                <div class="about_test d-flex justify-content-start gap-2 flex-column">
+                <div class="about_test shadow border d-flex justify-content-start gap-2 flex-column">
                     <h4>${element['test_name']}</h4>
                     <h6>subject: ${element['subject']}</h6>
                     <h5 style='font-size:13px;'>${element['faculty']} (${element['year_level']})</h5>
@@ -608,7 +763,7 @@ function drawTestInfo(data){
                         </button>
                         
                     </div>
-                    <span>${element['date']}</span>
+                    <span class='pt-3 mt-3 border-top'>${date}</span>
                 </div>
             `
             
@@ -857,11 +1012,14 @@ async function testNameReload(){
         try{
             const params = 'testName'
             let res = await fetchAPI('GET',{},params)
+            console.log(res.status)
             if(res.status==200){
                 const resp = await res.json()
                 const data = resp.subjects || []
                 drawSubjects(data)
-                console.error(data)
+            }
+            else if(res.status == 403){
+                window.location.href = arr.index
             }
 
         }catch(error){
@@ -871,16 +1029,30 @@ async function testNameReload(){
     }
 }
 
-function drawSubjects(data){
+function drawSubjects(data, status= null){
     let str = ''
+    str+=`
+        <option selected disabled value=0>Select a subject</option>
+    `
     data.forEach(element => {
-        str+= `
-        <option value='${element['prof_subj_id']}' data-val='${element['faculty']} (${element['year_level']} year)'>
-            ${element['subject']}
-        </option>
+        str += `
+        <optgroup label='${element['faculty']} (${element['year_level']})'>
         `
+        const subjects = JSON.parse(element.subjects)
+        subjects.forEach(subj => {
+            str+= `
+                <option value='${subj['prof_subj_id']}' data-val='${subj['faculty']} (${subj['year_level']} year)'>
+                    ${subj['subject']}
+                </option>
+            `
+        })
+        str += `</optgroup>`
+        
     })
     document.querySelector('#select_sub').innerHTML = str
+    if(status){
+        filterResultBySubject()     
+    }
 }
 
 

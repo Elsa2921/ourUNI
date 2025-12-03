@@ -3,13 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Results</title>
+    <title>Take Exam</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../../assets/css/student_pages.css">
+    <link rel="stylesheet" href="/ourUNI/public/assets/css/test.css">
     <link rel="stylesheet" href="/ourUNI/public/assets/css/same.css">
+    <link rel="stylesheet" href="/ourUNI/public/assets/css/student_pages.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>exam results</h1>
+    <div class="container-fluid pt-4 pt-md-5">
+        <div class="container pb-5 d-flex justify-content-between align-items-start flex-wrap gap-5">
+            <select name="" id="select_subject">
+                <option value="all" selected disabled>Select a subject</option>
+                <option value="all">All</option>
+            </select>
+
+            <div>
+                <input type="checkbox" id="res_type">
+                <label for="res_type">Show canvas</label>
+            </div>
+
+        </div>
+        <div class="container exam_results d-flex justify-content-start align-items-start gap-4 flex-wrap">
+
+        </div>
+    </div>
+    <canvas class="d-none" id="myCanva"></canvas>
+    <script src="../../assets/js/student_p.js?v=2" type="module"></script>
 </body>
 </html>
