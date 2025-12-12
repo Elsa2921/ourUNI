@@ -32,9 +32,7 @@ function newPass($password){
         $query = "UPDATE `$type` SET password=:pass WHERE id=:id";
         $execute = [':pass'=>$hash_pass, ':id' =>$id];
         $class->query($query,$execute);
-        unset($_SESSION['ourUNI_acc_id']);
-        unset($_SESSION['after_email']);
-        unset($_SESSION['ourUNI_acc_type']);
+        session_destroy();
         http_response_code(200);
         exit();
     }

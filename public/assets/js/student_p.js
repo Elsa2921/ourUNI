@@ -1,4 +1,4 @@
-import { fetchAPI, changeFormat } from "./script.js"
+import { fetchAPI, changeFormat, drawCanva,showCanvas  } from "./script.js"
 import { arr } from "./links.js"
 window.onload = () => {
     subject_reload()
@@ -323,7 +323,7 @@ const examResults = async () => {
         if(res.status==200){
             const data = await res.json()
             if(data.results){
-                showCanvas()
+                showCanvas(document.querySelector('.exam_results'))
                 drawResults(data.results)
                 setInfo(data.results)
             }
@@ -343,7 +343,7 @@ const examResults = async () => {
 const drawSubjectsSelect = (data) =>{
     let str = ''
     str += `
-        <option value="all" selected disabled>Select a subject</option>
+        <option  selected disabled>Select a subject</option>
         <option value="all">All</option>
     `
 
@@ -361,36 +361,15 @@ const drawSubjectsSelect = (data) =>{
 
 const filterInfo = () =>{
     const select = document.querySelector('#select_subject')
-    if(sessionStorage.getItem('filterSubject')){
-        select.value = sessionStorage.getItem('filterSubject')
+    if(sessionStorage.getItem('filterSubjectP')){
+        select.value = sessionStorage.getItem('filterSubjectP')
     }
     select.addEventListener('change', function(){
-        sessionStorage.setItem('filterSubject',select.value)
+        sessionStorage.setItem('filterSubjectP',select.value)
         window.location.reload()
     })
 }
 
-const showCanvas = () =>{
-    let inp = document.querySelector('#res_type')
-    inp.addEventListener('input',function(){
-        const canva = document.getElementById('myCanva')
-        const cont = document.querySelector('.exam_results')
-        if(inp.checked){
-            canva.classList.add('d-block')
-            canva.classList.remove('d-none')
-            
-            cont.classList.remove('d-block')
-            cont.classList.add('d-none')
-        }
-        else{
-            cont.classList.add('d-block')
-            cont.classList.remove('d-none')
-            
-            canva.classList.remove('d-block')
-            canva.classList.add('d-none')
-        }
-    })
-}
 
 const setInfo = (data) =>{
     const newArr = {}
@@ -421,44 +400,11 @@ const setInfo = (data) =>{
 }
 
 
-const drawCanva = (data,labels) => {
-    const id = document.getElementById('myCanva')
-    const dataset = []
-    for(let subject in data){
-        const pointsArr = labels.map(labelDate => {
-            const pointObj = data[subject].date.find(p => p == labelDate);
-            return pointObj ? data[subject]['pointsArr'][data[subject].date.indexOf(pointObj)] : 0; 
-        });
-        dataset.push({
-            label: subject,
-            data: pointsArr
-        })
-        
-    }
-
-    new Chart(id, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: dataset
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales:{
-                y: {
-                    min: 0,
-                    max: 100
-                }
-            }
-        }
-    })
-}
 
 const drawResults = (data) => {
     let str = ''
     let status = null
-    const subj = sessionStorage.getItem('filterSubject') ?? null
+    const subj = sessionStorage.getItem('filterSubjectP') ?? null
     if(subj && subj !=='all'){
         status = subj
     }
@@ -493,5 +439,8 @@ const drawResults = (data) => {
         str = `<h3>404 not found</h3>`
     }
 
+    if(str == ''){
+        str = `<h3>404 not found</h3>`
+    } 
     document.querySelector('.exam_results').innerHTML = str
 }

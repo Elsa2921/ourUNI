@@ -1,5 +1,5 @@
 import { arr } from "./links.js";
-import { fetchAPI,changeFormat } from './script.js';
+import { fetchAPI,changeFormat, drawCanva,showCanvas } from './script.js';
 
 document.addEventListener('DOMContentLoaded',function(){
     CreateTestName()
@@ -71,8 +71,8 @@ const examResReload = async() => {
         const res = await fetchAPI('GET', dataSelected ,params)
         if(res.status == 200){
             const data = await res.json()
-            if(data.examRes){
-                showCanvas()
+            if(data.examRes && (data.examRes).length !==0){
+                showCanvas(document.querySelector('.exam_results_area'))
                 setInfo(data.examRes)
                 drawResults(data.examRes)
             }
@@ -90,27 +90,7 @@ const examResReload = async() => {
     
 }
 
-const showCanvas = () =>{
-    let inp = document.querySelector('#res_type')
-    inp.addEventListener('input',function(){
-        const canva = document.getElementById('myCanva')
-        const cont = document.querySelector('.exam_results_area')
-        if(inp.checked){
-            canva.classList.add('d-block')
-            canva.classList.remove('d-none')
-            
-            cont.classList.remove('d-block')
-            cont.classList.add('d-none')
-        }
-        else{
-            cont.classList.add('d-block')
-            cont.classList.remove('d-none')
-            
-            canva.classList.remove('d-block')
-            canva.classList.add('d-none')
-        }
-    })
-}
+
 
 
 
@@ -118,21 +98,25 @@ const setInfo = (data) =>{
     const newArr = {}
     const datesSet = new Set()
     data.forEach(element => {
-        datesSet.add(element.time)
-        if(element.subject in newArr){
-            newArr[element.subject]['pointsArr'].push(element.points)
-            newArr[element.subject]['namesArr'].push(element.exam_name)
-            newArr[element.subject]['date'].push(element.time)
+        const res = JSON.parse(element.results)
+        res.forEach(student => {
+            datesSet.add(student.time)
 
-        }
-        else{
-            newArr[element.subject]= {
-                'namesArr' : [element.exam_name],
-                'pointsArr' : [element.points],
-                'date' : [element.time]
+            if(student.student_name in newArr){
+                newArr[student.student_name]['pointsArr'].push(student.points)
+                newArr[student.student_name]['namesArr'].push(element.exam_name)
+                newArr[student.student_name]['date'].push(student.time)
+    
             }
-
-        }
+            else{
+                newArr[student.student_name]= {
+                    'namesArr' : [element.exam_name],
+                    'pointsArr' : [student.points],
+                    'date' : [student.time]
+                }
+    
+            }
+        })
     })
 
     const dates = [...datesSet]
@@ -143,39 +127,6 @@ const setInfo = (data) =>{
 }
 
 
-const drawCanva = (data,labels) => {
-    const id = document.getElementById('myCanva')
-    const dataset = []
-    for(let subject in data){
-        const pointsArr = labels.map(labelDate => {
-            const pointObj = data[subject].date.find(p => p == labelDate);
-            return pointObj ? data[subject]['pointsArr'][data[subject].date.indexOf(pointObj)] : 0; 
-        });
-        dataset.push({
-            label: subject,
-            data: pointsArr
-        })
-        
-    }
-
-    new Chart(id, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: dataset
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales:{
-                y: {
-                    min: 0,
-                    max: 100
-                }
-            }
-        }
-    })
-}
 
 
 const filterResultBySubject = () =>{
@@ -197,29 +148,32 @@ const drawResults = (data) => {
     }
     else{
         data.forEach(element=> {
-            const date = changeFormat(element.time,0)
-
             str+= `
-                <div class="main_card bg-white rounded-2xl shadow p-5 border">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-4 mb-2">
-                        <h4 class="text-lg font-600 letter-s text-color1">${element.exam_name}</h4>
-                        <span class='letter-s text-gray'>${date}</span>
-                    </div>
-                    <p class="text-sm text-slate-600">${element.subject}</p>
+                <div class="container d-flex justify-content-start align-items-start flex-wrap gap-5 border-top pt-3 mb-5">
+                    <h4 class="w-100 text-lg font-600 letter-s text-color1">${element.exam_name}</h4>
+            `   
+            const results = JSON.parse(element.results)
+            results.forEach(res =>{
+                const date = changeFormat(res.time,0)
 
-                    <div class="mt-3 d-flex justify-content-between flex-wrap gap-4 align-items-center  ${element.is_qualified ? 'text-color3' : 'text-color1'}">
-                        <span class="font-400 ">${element.is_qualified ? 'Qualified' : 'Not Qualified'}</span>
-                        <span class="font-600 letter-s">Points : ${element.points}</span>
+                str+= `
+                    <div class="main_card bg-white rounded-2xl shadow p-5 border">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-4 mb-2">
+                            <span class='letter-s text-gray'>${date}</span>
+                        </div>
+
+                        <div class="mt-3 d-flex justify-content-between flex-wrap gap-4 align-items-center  ${res.is_qualified ? 'text-color3' : 'text-color1'}">
+                            <span class="font-400 ">${res.is_qualified ? 'Qualified' : 'Not Qualified'}</span>
+                            <span class="font-600 letter-s">Points : ${res.points}</span>
+                        </div>
+                        <div class="mt-3 border-top pt-3 text-end letter-s">
+                            <span>${res.student_name}</span>   
+                        </div>
                     </div>
-                    <div class="mt-3 border-top pt-3 letter-s">
-                        <span>${element.faculty}</span>
-   
-                    </div>
-                    <div class="mt-3 border-top pt-3 text-end letter-s">
-                        <span>${element.student_name}</span>   
-                    </div>
-                </div>
-            `
+                `
+            })
+            str+= `</div>`
+            // 
         })
     }
 
@@ -227,36 +181,36 @@ const drawResults = (data) => {
 }
 
 
-function examRes_search(){
-    const form = document.querySelector('#examRes_search_form')
-    if(form){
-        form.addEventListener('submit',async function(ev){
-            ev.preventDefault();
-            const inp = form.querySelector('input').value
-            if(inp.length > 0 && inp.trim()!==''){
-                const params = 'student'
-                const data = {
-                    'search': inp
-                }
-                const res = await fetchAPI('GET',data,params)
-                if(res.status===200){
-                    const data =await res.json();
-                    drawStudentSerch(data['searchRes'])
-                }
-                else if(res.status===204){
-                    drawStudentSerch(false)
+// function examRes_search(){
+//     const form = document.querySelector('#examRes_search_form')
+//     if(form){
+//         form.addEventListener('submit',async function(ev){
+//             ev.preventDefault();
+//             const inp = form.querySelector('input').value
+//             if(inp.length > 0 && inp.trim()!==''){
+//                 const params = 'student'
+//                 const data = {
+//                     'search': inp
+//                 }
+//                 const res = await fetchAPI('GET',data,params)
+//                 if(res.status===200){
+//                     const data =await res.json();
+//                     drawStudentSerch(data['searchRes'])
+//                 }
+//                 else if(res.status===204){
+//                     drawStudentSerch(false)
 
-                }
-                else{
-                    window.location.href = arr.index
-                }
-            }
+//                 }
+//                 else{
+//                     window.location.href = arr.index
+//                 }
+//             }
             
 
-        })
-    }
-    // 
-}
+//         })
+//     }
+//     // 
+// }
 
 
 function drawStudentSerch(data){
@@ -586,16 +540,13 @@ function startExam_form(){
             let name = form.querySelector('#exam_name').value
             let faculty  = form.querySelector('#select_faculty').value
             let duration = form.querySelector('#exam_duration').value
-            let minPoints = form.querySelector('#min_points').value
-            let maxPoints = form.querySelector(`option[value="${faculty}"]`);
+
             if(name.trim!=='' && faculty!=="0"){
                 const params = 'exam'
                 let data = {
                     'test':faculty,
                     'duration' :duration,
-                    'minPoints':minPoints,
-                    'name' : name,
-                    'maxPoints' : maxPoints.getAttribute('data-maxpoint')
+                    'name' : name
                     
                 }
                 const res = await fetchAPI('POST',data,params)
@@ -603,9 +554,16 @@ function startExam_form(){
                 if(data_r['message'] && data_r['message']=='ok'){
                     window.location.href = arr.examProgress;
                 }
-                else if(data_r['status'] && data_r['status']==403){
-                    window.location.href = arr.index;
+                else if(data_r['status']){
+                    if(data_r['status']==403){
+
+                        window.location.href = arr.index;
+                    }
+                    else if(data_r['status'] == 404){
+                        alert('not enough points')
+                    }
                 }
+            
             }
             
             }

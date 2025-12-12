@@ -49,18 +49,15 @@ if (empty($origin) || $origin==$_ENV['APP_ALLOWED_ORIGIN']) {
                 if(
                     isset($post['test'])
                     and isset($post['duration'])
-                    and isset($post['minPoints'])
-                    and isset($post['maxPoints'])
                     and isset($post['name'])
                 ){
                     if(
                         !empty($post['test'])
                         and !empty($post['duration'])
-                        and !empty($post['minPoints'])
                         and !empty($post['name'])
                         
                     ){
-                        startExam($post['name'],$post['test'],$post['duration'],$post['minPoints'],$post['maxPoints']);
+                        startExam($post['name'],$post['test'],$post['duration']);
                     }
                 }
                 break;
@@ -97,7 +94,7 @@ if (empty($origin) || $origin==$_ENV['APP_ALLOWED_ORIGIN']) {
                                 newPass($post['password']);
                             }
                         case 'pinCode_form':
-                            if(isset($post['pin_code']) and  strlen($post['pin_code'])==4){
+                            if(isset($post['pin_code']) and  strlen($post['pin_code'])==6){
                                 pinCode($post['pin_code']);
                             }
                     }

@@ -152,7 +152,7 @@ function getStudentExamResults($id){
     INNER JOIN professors AS p
         ON p.id = ps.prof_id
     WHERE er.student_id = :s_id
-    ORDER BY er.time DESC
+    ORDER BY er.time ASC
     ";
     $execute = [
         ':status' => 0,

@@ -76,8 +76,6 @@ function getViewStudents($examId,$type){
     AND process=:p";
     $execute = [':exam_id'=>$examId, ':p'=>$t];
     $data = $class->query($query,$execute);
-    // $data = $stmt->fetchAll();
-    // return $data;
     return $data;
 }
 
@@ -126,6 +124,24 @@ function getQuestions($u_id,$table_id){
     return $flag;
 }
 
+
+function getPointSum($u_id,$test_id){
+    global $class;
+    $query = "SELECT  SUM(tq.points) AS points
+    FROM test_names AS tn
+    INNER JOIN prof_subjects AS ps
+        ON ps.id = tn.prof_subject_id
+    INNER JOIN test_questions AS tq
+        ON tq.test_id = tn.id
+    WHERE tn.id = :test_name_id
+        AND ps.prof_id = :prof_id";
+    $execute = [
+        ':test_name_id' => $test_id,
+        ':prof_id' => $u_id
+    ];
+    $flag = $class->query($query,$execute,'column');
+    return $flag;
+}
 
 
 
@@ -179,8 +195,6 @@ function getAllTestsR($id){
         ON s.id = ps.subject_id
     INNER JOIN faculties AS f
         ON f.id = s.faculty_id
-    LEFT JOIN test_questions AS tq
-        ON tn.id = tq.test_id    
     WHERE ps.prof_id = :prof_id
     GROUP BY f.faculty, s.year_level,s.subject
     ORDER BY tn.date DESC";
@@ -231,8 +245,20 @@ function getExams($id){
 
 function examResultsReloadProf($id, $sub_id){
     global $class;
-    $query = "SELECT s.full_name as student_name, es.exam_name, f.faculty, sub.subject,
-    er.points, er.time, er.is_qualified
+    $query = "SELECT f.faculty,  es.exam_name, sub.subject,
+    CONCAT(
+    '[',
+    GROUP_CONCAT(
+        JSON_OBJECT(
+            'student_name', s.full_name,
+            'points' , er.points,
+            'time', er.time,
+            'is_qualified', er.is_qualified
+
+        )
+    ),
+    ']'
+    ) AS results
     FROM prof_subjects AS ps
     INNER JOIN subjects AS sub 
         ON sub.id = ps.subject_id
@@ -249,7 +275,7 @@ function examResultsReloadProf($id, $sub_id){
     WHERE ps.prof_id = :prof_id
     AND ps.id = :sub_id
     GROUP BY es.id
-    ORDER BY er.time DESC
+    ORDER BY er.time ASC
     ";
     $execute = [':prof_id' => $id, ':sub_id' => $sub_id];
     return $class->query($query,$execute);

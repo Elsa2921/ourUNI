@@ -107,28 +107,33 @@ function examsProgressReload(){
 
 
 
-function startExam($name,$test_id,$duration,$minPoints,$maxPoints){
+function startExam($name,$test_id,$duration){
     $res = ['status'=>403];
     $logChecker = logchecker(true,false);
     if($logChecker){
         $u_id = $_SESSION['ourUNI_id_'] ?? '';
 
         if(isset($logChecker['role']) and $logChecker['role']==2 and !empty($u_id)){
+            $maxPoints = getPointSum($u_id,$test_id) ?? 0;
+            $res = ['status'=>404];
+            if($maxPoints > 5){
+                $minPoints = round($maxPoints * 40 / 100);
+                global $class;
+                $start_date = currentDate();
+                $query = "INSERT INTO exam_start (test_id, exam_duration, min_points, max_points, exam_name, start_time) 
+                VALUES ( :test_id, :duration, :min_p, :max_p,:exam_name, :start_time)";
+                $execute = [
+                    ':test_id'=>$test_id,
+                    ':duration'=>$duration, 
+                    ':min_p'=>$minPoints ,
+                    ':max_p'=>$maxPoints,
+                    ':exam_name' => $name,
+                    ':start_time'=> $start_date
+                ];
+                $class->query($query,$execute,'id');
+                $res = ['message'=>'ok'];
+            }
             
-            global $class;
-            $start_date = currentDate();
-            $query = "INSERT INTO exam_start (test_id, exam_duration, min_points, max_points, exam_name, start_time) 
-            VALUES ( :test_id, :duration, :min_p, :max_p,:exam_name, :start_time)";
-            $execute = [
-                ':test_id'=>$test_id,
-                ':duration'=>$duration, 
-                ':min_p'=>$minPoints ,
-                ':max_p'=>$maxPoints,
-                ':exam_name' => $name,
-                ':start_time'=> $start_date
-            ];
-            $class->query($query,$execute,'id');
-            $res = ['message'=>'ok'];
         }
     }
 

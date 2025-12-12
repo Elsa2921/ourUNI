@@ -231,7 +231,7 @@ h6, p, label {
 
 
 #myCanva{
-    height:80vh !important;
+    height:75vh !important;
 }
 
 
@@ -257,7 +257,7 @@ label ,input[type='checkbox']{
     }
 
     #myCanva{
-        height:70vh !important;
+        height:65vh !important;
     }
     
 }
@@ -277,7 +277,7 @@ label ,input[type='checkbox']{
     }
 
     #myCanva{
-        height:60vh !important;
+        height:55vh !important;
     }
     
 
@@ -301,7 +301,7 @@ label ,input[type='checkbox']{
         font-size: 14px;
     }
     #myCanva{
-        height:50vh !important;
+        height:45vh !important;
     }
     
 }
